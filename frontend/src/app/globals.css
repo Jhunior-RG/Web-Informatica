@@ -1,27 +1,84 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?  family=Montserrat:ital,wght@0,100;0,200;1,100;1,200&display=swap');
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0a0a0a;
 }
 
+/*
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
+*/
 
 body {
+
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Monserrat, Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+
+:root {
+  --color-bg1: #28a2b833;
+  --color-bg2: #493BB933;
+  --color1: 18, 113, 255;
+  --color2: 221, 74, 255;
+  --color3: 100, 220, 255;
+  --color4: 200, 50, 50;
+  --color5: 180, 180, 50;
+  --color-interactive: 140, 100, 255;
+  --circle-size: 80%;
+  --blending: hard-light;
+}
+
+.gradient-bg {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  overflow: hidden;
+  background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
+ 
+  .g1 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color-bg1), 0.8) 0, rgba(var(--color1), 0) 50%);
+  
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50%, var(--circle-size) /2);
+    left: calc(50% - var(--circle-size) /2);
+    opacity: 1;
+  }
+}
+
+.image-background {
+  background-image: linear-gradient(rgba(116, 65, 193, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("https://cdn.usegalileo.ai/sdxl10/55b196f9-1956-47ee-80e0-91146aac92b0.png");
+}
+@keyframes gradientAnimation {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
+
+.bg-animated-gradient {
+  background: radial-gradient(circle, rgba(255,255,255,0.8352591036414566) 0%, rgba(68,190,210,1) 50%, rgb(122, 142, 224) 100%);
+  background-size: 600% 600%;
 }

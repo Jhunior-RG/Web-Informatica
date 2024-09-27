@@ -48,7 +48,6 @@ const Page = () => {
 
     return (
         <div className="container mx-auto p-5 space-y-5">
-            {/* Header con botón */}
             <div className="flex justify-between items-center mb-4">
                 <h1 className="font-bold text-3xl">Horario</h1>
                 <button className="bg-indigo-600 text-white flex items-center rounded-full px-5 py-2 space-x-2 hover:bg-indigo-700 transition">
@@ -57,7 +56,6 @@ const Page = () => {
                 </button>
             </div>
 
-            {/* Botones de días */}
             <div className="flex justify-between bg-gray-100 p-3 rounded-xl shadow-md overflow-auto">
                 {days.map((day, index) => (
                     <button
@@ -74,7 +72,6 @@ const Page = () => {
                 ))}
             </div>
 
-            {/* Lista de cursos */}
             <div className="space-y-4">
                 {courses[daySelected]?.length > 0 ? (
                     courses[daySelected].map((course, index) => (

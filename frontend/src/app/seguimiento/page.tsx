@@ -23,8 +23,7 @@ const Page = () => {
         <div className="p-5 space-y-5">
             <h1 className="text-2xl font-bold mb-4 ">Progreso Académico</h1>
 
-            {/* Barra de progreso */}
-            <div className="w-full bg-gray-300 rounded-full h-6 overflow-hidden">
+            <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
                 <div
                     className="bg-indigo-600 h-full rounded-full transition-all duration-500"
                     style={{ width: `${progress}%` }}
@@ -49,7 +48,6 @@ const Page = () => {
 };
 
 const Course = ({ course, state }) => {
-    // Define color y icono según el estado del curso
     let bgColor = "bg-gray-100";
     let textColor = "text-gray-500";
     let icon = <HourglassEmpty />;

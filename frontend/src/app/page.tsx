@@ -45,7 +45,7 @@ export default function Home() {
                 <Funcionalidad
                     title="Materiales Academicos"
                     MuiIcon={LibraryBooksOutlinedIcon}
-                    href='/materiales'
+                    href='/material'
                 />
 
                 <Funcionalidad

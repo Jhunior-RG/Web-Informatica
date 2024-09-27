@@ -17,8 +17,6 @@ function DropDown({ title }) {
     const [openDropDown, setOpenDropDown] = useState(false);
     const [courses, setCourses] = useState([]);
     useEffect(() => {
-        // Simular una llamada a una API para obtener los cursos
-        // Este ejemplo simula una llamada asincrona
 
         setCourses([
             { id: 1, name: "Algebra I" },
@@ -27,12 +25,12 @@ function DropDown({ title }) {
         ]);
     }, []);
     return (
-        <div className="w-4/5">
+        <div className="w-4/5 ">
             <button
                 onClick={() => {
                     setOpenDropDown(!openDropDown);
                 }}
-                className="w-full bg-white rounded-xl my-1 py-3 px-4"
+                className="w-full bg-white rounded-xl my-1 py-3 px-4 shadow-md"
             >
                 <div className=" flex justify-between">
                     <p>{title}</p>

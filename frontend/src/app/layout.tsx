@@ -13,9 +13,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="es">
             <body
-                className={`w-screen h-screen ${montserrat.className} antialiased h-screen   bg-animated-gradient`}
+                className={`h-screen ${montserrat.className} antialiased bg-animated-gradient`}
             >
                 {children}
             </body>

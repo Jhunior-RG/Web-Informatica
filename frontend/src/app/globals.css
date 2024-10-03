@@ -64,7 +64,10 @@ body {
 }
 
 .image-background {
-  background-image: linear-gradient(rgba(116, 65, 193, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("https://cdn.usegalileo.ai/sdxl10/55b196f9-1956-47ee-80e0-91146aac92b0.png");
+  background-image: linear-gradient(rgba(116, 65, 193, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("/ingenieria-informatica.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 @keyframes gradientAnimation {
   0% {
@@ -81,4 +84,5 @@ body {
 .bg-animated-gradient {
   background: radial-gradient(circle, rgba(255,255,255,0.8352591036414566) 0%, rgba(68,190,210,1) 50%, rgb(122, 142, 224) 100%);
   background-size: 600% 600%;
+  
 }

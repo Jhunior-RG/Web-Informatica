@@ -1,12 +1,11 @@
 "use client";
 import React from "react";
-import {
-    LockOutlined,
-    EmailOutlined,
-} from "@mui/icons-material";
+import { PersonOutline, LockOutlined, EmailOutlined } from "@mui/icons-material";
 import Link from "next/link";
 
-export default function AuthPage() {
+
+export default function Login() {
+
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 px-4">
             {/* Logo y encabezado */}
@@ -15,7 +14,7 @@ export default function AuthPage() {
                     Ingeniería Informática
                 </h1>
                 <p className="text-gray-400">
-                    Inicia sesión para continuar
+                    Crea tu cuenta ahora
                 </p>
             </div>
 
@@ -41,30 +40,40 @@ export default function AuthPage() {
                     />
                 </div>
 
+                {/* Campo adicional para nombre en el registro */}
+                
+                    <div className="relative">
+                        <PersonOutline className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Nombre Completo"
+                            className="w-full pl-10 pr-4 py-3 border border-gray-700 bg-gray-700 rounded-full focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-gray-300 transition-all"
+                        />
+                    </div>
+                
+
                 {/* Botón de enviar */}
                 <button
                     type="submit"
                     className="w-full py-3 bg-indigo-600 text-white rounded-full font-semibold hover:bg-indigo-500 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-300"
                 >
-                    Iniciar Sesión
+                     Registrarse
                 </button>
             </form>
 
             {/* Cambiar entre Iniciar sesión y Registro */}
             <div className="text-gray-500 mt-6">
-                <p>
-                    ¿No tienes cuenta?{" "}
-                    <Link href='/register' className="text-indigo-500 font-semibold cursor-pointer hover:underline">
-                        Regístrate
-                    </Link>
-                </p>
+                
+                    <p>
+                        ¿Ya tienes cuenta?{" "}
+                        <Link href='/login'
+                            className="text-indigo-500 font-semibold cursor-pointer hover:underline"
+                        >
+                            Inicia sesión
+                        </Link>
+                    </p>
             </div>
 
-            <div className="mt-4">
-                <Link href="/recuperar" className="text-indigo-500 hover:underline cursor-pointer">
-                        ¿Olvidaste tu contraseña?
-                </Link>
-            </div>
         </div>
     );
 }

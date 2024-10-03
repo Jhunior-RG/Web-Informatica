@@ -1,19 +1,18 @@
 # Iniciar el Frontend
+
 version de node usada 22
-```
-    cd frontend
+
+```cd frontend
 ```
 
 ## intalar dependencias
 
-```
-    npm intall
+```npm intall
 ```
 
 ## iniciar proyecto
 
-```
-    npm run dev
+```npm run dev
 ```
 
 abrir el [enlace](http://localhost:3000)

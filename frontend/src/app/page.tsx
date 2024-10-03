@@ -1,89 +1,131 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Loader from "@/components/Loader";
+import React from "react";
 import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
-import { Article, Bookmark, CalendarMonth, CheckBoxOutlineBlank, CheckCircle, CheckCircleOutlineOutlined } from "@mui/icons-material";
+import {
+    Article,
+    CalendarMonth,
+    CheckCircleOutlineOutlined,
+} from "@mui/icons-material";
 import Link from "next/link";
 
 export default function Home() {
-    /*
-    const [loading, setLoading] = useState(true); // Estado de carga
-
-    useEffect(() => {
-        // Simula la carga de datos o cualquier operación asíncrona
-        const timer = setTimeout(() => {
-            setLoading(false); // Cambia el estado después de 2 segundos (o cuando termine de cargar)
-        }, 3000);
-
-        // Limpia el timer cuando el componente se desmonte
-        return () => clearTimeout(timer);
-    }, []);
-
-    if (loading) {
-        return <Loader />; // Muestra la pantalla de carga
-    }*/
-
     return (
-        <div className={` flex  flex-col justify-between`}>
-            <div className="flex w-full h-[400px] bg-cover bg- bg-center bg-no-repeat  items-center justify-center p-4  image-background">
-                <div className="text-center">
-                    <h1 className="text-4xl font-bold text-white">
-                        Bienvenido a Ingenieria Informatica
+        <div className="flex flex-col justify-between">
+            {/* Sección de encabezado con imagen de fondo */}
+            <div className="flex flex-col w-full h-screen bg-cover bg-center bg-no-repeat items-center justify-between p-4 relative image-background">
+                <div className="flex justify-center space-x-4 w-full z-10 p-4">
+                    <Link href="/login" className=" bg-indigo-600 text-white rounded-lg py-2 px-4 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 text-sm sm:text-base">
+                            Inicia Sesión
+                    </Link>
+                    <Link href="/register" className=" bg-indigo-600 text-white rounded-lg py-2 px-4 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 text-sm sm:text-base">
+                            Regístrate
+                        
+                    </Link>
+                </div>
+
+                {/* Capa de superposición para hacer el texto más legible */}
+                <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+                <div className="text-center relative z-10 px-4">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-white drop-shadow-md mb-4">
+                        Bienvenido a Ingeniería Informática
                     </h1>
-                    <p className="mt-3 text-white ">
-                        Obten acceso a materiales de estudio, gestiona tu
-                        horario y consulta tus planes de estudio.
+                    <p className="text-base sm:text-lg text-white drop-shadow-md">
+                        Accede a materiales de estudio, gestiona tu horario y
+                        consulta tu plan de estudios de manera eficiente.
                     </p>
                 </div>
-            </div>
-            <h3 className="text-lg font-bold px-4 pb-2 pt-4">
-                Funcionalidades destacadas
-            </h3>
-
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
-
-                <Funcionalidad
-                    title="Materiales Academicos"
-                    MuiIcon={LibraryBooksOutlinedIcon}
-                    href='/material'
-                />
-
-                <Funcionalidad
-                    title="Gestion de Horarios"
-                    MuiIcon={CalendarMonth}
-                    href='/horario'
-                />
-
-                <Funcionalidad
-                    title="Seguimiento de progreso"
-                    MuiIcon={CheckCircleOutlineOutlined}
-                    href='/seguimiento'
-                />
-
-                <Funcionalidad
-                    title="Plan de Estudio"
-                    MuiIcon={Article}
-                    href='/pensum'
-                />
+                <p className="text-white animate-bounce mb-10 relative z-10">
+                    Desliza hacia abajo
+                </p>
             </div>
 
+            {/* Sección de funcionalidades destacadas */}
+            <section className="w-full py-12 bg-gray-900">
+                <h3 className="text-2xl font-semibold text-white text-center mb-6 px-4">
+                    Accede a las siguientes funcionalidades
+                </h3>
 
+                {/* Grid de funcionalidades - Mobile First */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 px-4">
+                    <Funcionalidad
+                        title="Materiales Académicos"
+                        MuiIcon={LibraryBooksOutlinedIcon}
+                        href="/material"
+                    />
+                    <Funcionalidad
+                        title="Gestión de Horarios"
+                        MuiIcon={CalendarMonth}
+                        href="/horario"
+                    />
+                    <Funcionalidad
+                        title="Progreso Academico"
+                        MuiIcon={CheckCircleOutlineOutlined}
+                        href="/progreso"
+                    />
+                    <Funcionalidad
+                        title="Plan de Estudio"
+                        MuiIcon={Article}
+                        href="/pensum"
+                    />
+                </div>
+            </section>
+
+            {/* Sección adicional: Características */}
+            <section className="w-full py-16  bg-gray-900">
+                <h3 className="text-2xl font-semibold text-gray-200 text-center mb-8 px-4">
+                    ¿Por qué elegirnos?
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+                    <Caracteristica
+                        title="Materiales actualizados"
+                        description="Accede a materiales de estudio revisados y actualizados por profesionales del área."
+                        icon={
+                            <LibraryBooksOutlinedIcon className="text-indigo-500 text-5xl mb-4" />
+                        }
+                    />
+                    <Caracteristica
+                        title="Optimización de tiempos"
+                        description="Organiza tu horario y tareas para aprovechar al máximo tu tiempo de estudio."
+                        icon={
+                            <CalendarMonth className="text-indigo-500 text-5xl mb-4" />
+                        }
+                    />
+                    <Caracteristica
+                        title="Soporte continuo"
+                        description="Recibe asistencia técnica y académica para resolver tus dudas en cualquier momento."
+                        icon={
+                            <CheckCircleOutlineOutlined className="text-indigo-500 text-5xl mb-4" />
+                        }
+                    />
+                </div>
+            </section>
         </div>
     );
 }
 
-function Funcionalidad({ MuiIcon, title,href }) {
+function Funcionalidad({ MuiIcon, title, href }) {
     return (
-        <button className="rounded-lg bg-white p-4 hover:bg-blue-500 hover:text-white flex flex-col items-center">
+        <Link href={href}>
+            <button className="group rounded-lg h-full bg-indigo-700 p-4 shadow-lg  hover:text-white flex flex-col items-center justify-center transition duration-300 transform  w-full">
+                {MuiIcon && (
+                    <MuiIcon className="mb-2 text-4xl text-white group-hover:text-white transition duration-300" />
+                )}
+                <p className="font-semibold text-gray-300 group-hover:text-white transition duration-300 text-center text-sm sm:text-base">
+                    {title}
+                </p>
+            </button>
+        </Link>
+    );
+}
 
-            <Link href={href}>
-            {MuiIcon && (
-                <MuiIcon
-                className="mb-2 text-3xl"
-                />
-            )}
-            <p className="font-bold">{title}</p>
-            </Link>
-        </button>
+function Caracteristica({ title, description, icon }) {
+    return (
+        <div className="flex flex-col items-center text-center p-4 rounded-lg bg-gray-800 shadow-md">
+            {icon}
+            <h4 className="text-lg sm:text-xl font-bold text-gray-200 mb-2">
+                {title}
+            </h4>
+            <p className="text-sm sm:text-base text-gray-400">{description}</p>
+        </div>
     );
 }

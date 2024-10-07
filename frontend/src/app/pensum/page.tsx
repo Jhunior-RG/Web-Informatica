@@ -1,12 +1,23 @@
 "use client";
 import { ArrowDropDown, ArrowDropUp, CheckCircle, HourglassEmpty, Cancel } from "@mui/icons-material";
 import React, { useState } from "react";
+interface CourseProps {
+  id: number;
+  name: string;
+  status: 'Aprobado' | 'En Curso' | 'Pendiente'; // Restringimos a valores específicos
+  calification?: number; // Calificación es opcional
+}
 
-const Pensum = () => {
-  const semesters = [
+interface SemesterProps {
+  title: string;
+  progress: number; // Progreso del semestre
+  courses: CourseProps[];
+}
+const Pensum: React.FC = () => {
+  const semesters: SemesterProps[] = [ // Usamos la interfaz SemesterProps
     {
       title: "Primer Semestre",
-      progress: 2 / 4, // Progreso del semestre
+      progress: 2 / 4,
       courses: [
         { id: 1, name: "Álgebra I", status: "Aprobado", calification: 60 },
         { id: 2, name: "Introducción a la Programación", status: "En Curso" },
@@ -16,7 +27,7 @@ const Pensum = () => {
     },
     {
       title: "Segundo Semestre",
-      progress: 0, // Sin avances
+      progress: 0,
       courses: [
         { id: 5, name: "Cálculo II", status: "Pendiente" },
         { id: 6, name: "Estructuras de Datos", status: "Pendiente" },
@@ -26,10 +37,8 @@ const Pensum = () => {
   ];
 
   return (
-    <div className=" flex flex-col items-center justify-center p-5 space-y-6 w-full "> {/* Fondo gris oscuro */}
+    <div className="flex flex-col items-center justify-center p-5 space-y-6 w-full">
       <h1 className="text-4xl font-bold text-white mb-5">Plan de Estudios por Semestre</h1>
-
-      {/* Semestres */}
       {semesters.map((semester, index) => (
         <DropDown key={index} title={semester.title} courses={semester.courses} progress={semester.progress} />
       ))}
@@ -37,12 +46,11 @@ const Pensum = () => {
   );
 };
 
-function DropDown({ title, courses, progress }) {
+function DropDown({ title, courses, progress }: SemesterProps) {
   const [openDropDown, setOpenDropDown] = useState(false);
 
   return (
     <div className="w-full max-w-lg transition-all duration-300">
-      {/* Botón para abrir/cerrar el semestre */}
       <button
         onClick={() => setOpenDropDown(!openDropDown)}
         className="w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-lg my-1 py-3 px-4 shadow-lg transition-all duration-300 hover:shadow-2xl"
@@ -50,7 +58,6 @@ function DropDown({ title, courses, progress }) {
         <div className="flex justify-between items-center">
           <div>
             <p className="text-lg font-semibold">{title}</p>
-            {/* Barra de progreso del semestre */}
             <div className="relative w-full h-2 bg-gray-300 rounded-full mt-2">
               <div
                 className="absolute top-0 h-2 rounded-full bg-green-400"
@@ -61,8 +68,6 @@ function DropDown({ title, courses, progress }) {
           {!openDropDown ? <ArrowDropDown /> : <ArrowDropUp />}
         </div>
       </button>
-
-      {/* Cursos dentro del semestre */}
       {openDropDown && (
         <div className="bg-gray-700 rounded-lg p-4 shadow-md transition-all duration-300">
           {courses.map((course) => (
@@ -74,7 +79,7 @@ function DropDown({ title, courses, progress }) {
   );
 }
 
-function CourseCard({ course }) {
+function CourseCard({ course }: { course: CourseProps }) { // Usamos la interfaz CourseProps
   const statusColors = {
     Aprobado: "text-green-600",
     "En Curso": "text-yellow-600",
@@ -98,8 +103,7 @@ function CourseCard({ course }) {
           </p>
         </div>
       </div>
-      {/* Mostrar calificación si el curso está aprobado */}
-      {course.calification && (
+      {course.calification !== undefined && ( // Comprobamos que la calificación exista
         <p className="text-sm font-medium text-gray-400">{course.calification} / 100</p>
       )}
     </div>

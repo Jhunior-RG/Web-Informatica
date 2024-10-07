@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { YouTube, Download, Add } from "@mui/icons-material";
 import introduccionImg from "../../../public/introduccion.png";
+import type {SvgIconProps } from "@mui/material";
 
-const MaterialPage = () => {
+const MaterialPage = ({params}) => {
+  const {course} = params;
+  console.log(params)
   return (
     <div className="w-full max-w-4xl mx-auto py-8 px-3 space-y-12">
       {/* Imagen de fondo y título */}
@@ -77,7 +80,7 @@ const MaterialPage = () => {
             {
               text: "Introducción (YouTube)",
               icon: YouTube,
-              href: "https://www.youtube.com/link-to-class",
+              href: "https://www.youtube.com/",
               color: "red",
               materialDescription: "Clase virtual introductoria sobre los fundamentos de programación.",
             },
@@ -92,7 +95,7 @@ const MaterialPage = () => {
             {
               text: "Prácticas de clase (Descargar)",
               icon: Download,
-              href: "https://drive.google.com/link-to-class",
+              href: "https://drive.google.com/",
               color: "green",
               materialDescription: "Prácticas de clase que cubren ejercicios fundamentales de programación.",
             },
@@ -103,7 +106,20 @@ const MaterialPage = () => {
   );
 };
 
-const MaterialSection = ({ title, materials }) => (
+interface Material {
+  text: string;
+  icon: React.ElementType<SvgIconProps>;
+  href: string;
+  color?: "red" | "green" | "indigo";
+  materialDescription: string;
+}
+
+interface MaterialSectionProps {
+  title: string;
+  materials: Material[];
+}
+
+const MaterialSection: React.FC<MaterialSectionProps> = ({ title, materials }) => (
   <div className="bg-gray-800 rounded-2xl shadow-lg p-6">
     <h2 className="text-xl font-semibold text-blue-400 text-center mb-2">
       {title}
@@ -124,8 +140,13 @@ const MaterialSection = ({ title, materials }) => (
     </div>
   </div>
 );
-
-const ButtonMaterial = ({ text, Icon, href, color = "indigo" }) => {
+interface ButtonMaterialProps {
+  text: string;
+  Icon: React.ElementType<SvgIconProps>;
+  href: string;
+  color?: "red" | "green" | "indigo";
+}
+const ButtonMaterial: React.FC<ButtonMaterialProps> = ({ text, Icon, href, color = "indigo" }) => {
   const bgColor =
     color === "red"
       ? "bg-red-600 hover:bg-red-700"

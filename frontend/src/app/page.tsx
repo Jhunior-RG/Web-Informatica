@@ -102,8 +102,13 @@ export default function Home() {
         </div>
     );
 }
+interface FuncionalidadProps {
+    MuiIcon?: React.ElementType; // El icono puede ser un componente de MUI
+    title: string;
+    href: string;
+}
 
-function Funcionalidad({ MuiIcon, title, href }) {
+const Funcionalidad: React.FC<FuncionalidadProps> = ({ MuiIcon, title, href }) => {
     return (
         <Link href={href}>
             <button className="group rounded-lg h-full bg-indigo-700 p-4 shadow-lg  hover:text-white flex flex-col items-center justify-center transition duration-300 transform  w-full">
@@ -118,7 +123,13 @@ function Funcionalidad({ MuiIcon, title, href }) {
     );
 }
 
-function Caracteristica({ title, description, icon }) {
+interface CaracteristicaProps {
+    title: string;
+    description: string;
+    icon: React.ReactNode; // El icono puede ser cualquier nodo React
+}
+
+const Caracteristica: React.FC<CaracteristicaProps> = ({ title, description, icon }) => {
     return (
         <div className="flex flex-col items-center text-center p-4 rounded-lg bg-gray-800 shadow-md">
             {icon}

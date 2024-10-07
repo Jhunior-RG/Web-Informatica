@@ -1,5 +1,5 @@
-import Image from "next/image"; 
-import { ArrowForward, Search, Star } from "@mui/icons-material";
+import Image, {  type StaticImageData } from "next/image"; 
+import { ArrowForward, Search } from "@mui/icons-material";
 import Link from "next/link";
 import introduccionImg from "../../public/introduccion.png";
 import algebraImg from "../../public/algebra.png";
@@ -71,7 +71,15 @@ const Home = () => {
   );
 };
 
-const Material = ({ title, description, srcImage, link, isPopular }) => {
+interface MaterialProps {
+  title: string;
+  description: string;
+  srcImage: StaticImageData | string; 
+  link: string;
+  isPopular: boolean;
+}
+
+const Material: React.FC<MaterialProps> = ({ title, description, srcImage, link, isPopular }) => {
   return (
     <div className="flex bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 transform">
       {/* Imagen del curso */}

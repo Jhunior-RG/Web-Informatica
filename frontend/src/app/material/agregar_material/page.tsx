@@ -1,18 +1,20 @@
 'use client'
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 
 const AgregarMaterial = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<File|null>(null);
   const [link, setLink] = useState("");
   const [materialType, setMaterialType] = useState("file"); // "file" o "link"
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     // Aquí puedes manejar el envío del formulario y el archivo o enlace al servidor
     if (materialType === "file") {

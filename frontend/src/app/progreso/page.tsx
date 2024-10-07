@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { CheckCircle, HourglassEmpty, Cancel } from "@mui/icons-material";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css'; 
 import Link from "next/link";
 
@@ -46,14 +45,19 @@ const Page = () => {
             {/* Lista de cursos */}
             <div className="space-y-4">
                 {courses.map((course, index) => (
-                    <Course key={index} course={course.course} state={course.state} progress={course.progress || 0} />
+                    <Course key={index} course={course.course} state={course.state} />
                 ))}
             </div>
         </div>
     );
 };
 
-const Course = ({ course, state, progress }) => {
+interface CourseProps {
+    course: string;
+    state: string;
+}
+
+const Course: React.FC<CourseProps> = ({ course, state }) => {
     let bgColor = "bg-gray-100";
     let textColor = "text-gray-500";
     let icon = <HourglassEmpty />;

@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
 import { useState } from "react";
 
 // Formulario para agregar una clase
-const AddClassForm = ({ closeForm }) => {
+const AddClassForm =() => {
     const [formData, setFormData] = useState({
         course: "",
         teacher: "",
@@ -13,14 +13,13 @@ const AddClassForm = ({ closeForm }) => {
         day: "Lunes",
     });
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(formData); // Puedes manejar el envío aquí
-        closeForm(); // Cierra el formulario después de enviar
     };
 
     return (
@@ -102,14 +101,7 @@ const AddClassForm = ({ closeForm }) => {
                             onChange={handleChange}
                             className="w-full px-3 py-2 border border-gray-700 bg-gray-700 rounded-full focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-gray-300 transition-all"
                         >
-                            {[
-                                "Lunes",
-                                "Martes",
-                                "Miércoles",
-                                "Jueves",
-                                "Viernes",
-                                "Sábado",
-                            ].map((day) => (
+                            {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"].map((day) => (
                                 <option key={day} value={day}>
                                     {day}
                                 </option>
@@ -119,7 +111,6 @@ const AddClassForm = ({ closeForm }) => {
                     <div className="flex justify-end space-x-2">
                         <button
                             type="button"
-                            onClick={closeForm}
                             className="bg-gray-500 text-white px-4 py-2 rounded-full hover:bg-gray-600 transition"
                         >
                             Cancelar

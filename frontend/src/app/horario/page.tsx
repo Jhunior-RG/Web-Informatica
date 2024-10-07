@@ -103,8 +103,17 @@ const Page = () => {
         </div>
     );
 };
+interface CourseProps {
+    course: {
+        course: string;
+        teacher: string;
+        location: string;
+        startTime: string;
+        endTime: string;
+    };
+}
 
-const Course = ({ course }) => {
+const Course: React.FC<CourseProps> = ({ course }) => {
     return (
         <div className="bg-gray-800 rounded-2xl shadow-lg p-5 hover:shadow-xl transition-shadow">
             <h2 className="font-bold text-xl mb-2 text-indigo-600">

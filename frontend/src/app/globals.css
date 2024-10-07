@@ -64,7 +64,7 @@ body {
 }
 
 .image-background {
-  background-image: linear-gradient(rgba(116, 65, 193, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("/ingenieria-informatica.webp");
+  background-image: linear-gradient(rgba(116, 65, 193, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("../public/ingenieria-informatica.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

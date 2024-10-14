@@ -2,7 +2,6 @@ import { DataTypes } from 'sequelize'
 import sequelize from '../config/sequelize.js';
 
 const Materia = sequelize.define('Materia', {
-    // Definir los campos del modelo
     nombre: {
         type: DataTypes.STRING,
         allowNull: false
@@ -10,6 +9,10 @@ const Materia = sequelize.define('Materia', {
     semestre: {
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    imagen_url: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 });
 

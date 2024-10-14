@@ -21,6 +21,5 @@ const Material = sequelize.define('Material', {
     }
 });
 
-await sequelize.sync();
 
 export default Material;

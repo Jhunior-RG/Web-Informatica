@@ -8,6 +8,7 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST,
         dialect: "postgres",
+        logging: ()=>{}
     }
 );
 
@@ -20,5 +21,6 @@ sequelize
     .catch((error) => {
         console.error("No se pudo conectar a la base de datos:", error);
     });
+sequelize.sync({alter: true})
 
 export default sequelize

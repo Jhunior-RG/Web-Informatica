@@ -13,7 +13,6 @@ const Materia = sequelize.define('Materia', {
     }
 });
 
-await sequelize.sync({alter: true});
 
 export default Materia; 
  

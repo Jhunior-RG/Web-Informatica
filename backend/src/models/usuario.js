@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize'
-import sequelize from '../config/sequelize.js';
+import db from '../config/db.js';
 
-const Usuario = sequelize.define('Usuario', {
+const Usuario = db.define('Usuario', {
     // Definir los campos del modelo
     nombre: {
         type: DataTypes.STRING,
@@ -15,8 +15,9 @@ const Usuario = sequelize.define('Usuario', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
-    }
-});
-
+    },
+},
+    { modelName: "Usuarios" }
+);
 
 export default Usuario;

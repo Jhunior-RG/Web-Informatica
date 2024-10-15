@@ -1,7 +1,9 @@
 import { DataTypes } from 'sequelize'
-import sequelize from '../config/sequelize.js';
+import db from '../config/db.js';
+import Grupo from './grupo.js'
 
-const Materia = sequelize.define('Materia', {
+
+const Materia = db.define('Materia', {
     nombre: {
         type: DataTypes.STRING,
         allowNull: false
@@ -10,12 +12,21 @@ const Materia = sequelize.define('Materia', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    imagen_url: {
+    urlImagen: {
         type: DataTypes.STRING,
         allowNull: true
+    },
+    esElectiva: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
     }
-});
+}, { modelName: "Materias" });
+
+Materia.hasMany(Grupo, {
+    foreignKey: {
+        name: 'idMateria',
+    },
+})
 
 
-export default Materia; 
- 
+export default Materia;

@@ -1,8 +1,9 @@
 import { DataTypes } from 'sequelize'
-import sequelize from '../config/sequelize.js';
+import db from '../config/db.js';
+import Materia from './materia.js';
 
-const Material = sequelize.define('Material', {
-    // Definir los campos del modelo
+const Material = db.define('Material', {
+
     url: {
         type: DataTypes.STRING,
         allowNull: true
@@ -19,7 +20,15 @@ const Material = sequelize.define('Material', {
         },
         allowNull: false
     }
-});
+},
+    {
+        modelName: "Materiales"
+    }
+);
+
+Materia.hasMany(Material, {
+    foreignKey: 'idMateria',
+})
 
 
 export default Material;

@@ -3,6 +3,7 @@ import express from "express";
 import usuarios from './routes/usuarios.js'
 import materiales from "./routes/materiales.js";
 import materias from "./routes/materias.js";
+import horarios from './routes/horarios.js'
 
 
 import auth from "./routes/auth.js";
@@ -22,6 +23,7 @@ app.use('/api', auth )
 app.use("/api/usuario", usuarios)
 app.use('/api/material', materiales)
 app.use('/api/materia',materias)
+app.use('/api/horarios', horarios)
 
 //app.use('/api/semestre',semestres)
 //app.use('/api/clase',clases)

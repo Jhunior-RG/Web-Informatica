@@ -1,4 +1,4 @@
-import db from "../config/db.js";
+        import db from "../config/db.js";
 import Clase from "./clase.js";
 import { DataTypes } from "sequelize";
 
@@ -12,7 +12,7 @@ const Grupo = db.define('Grupo', {
         type: DataTypes.STRING,
     }
 }, {
-    tableName: 'Grupos',
+    tableName: 'Grupos', timestamps: false
 })
 
 Grupo.hasMany(Clase,

@@ -7,6 +7,7 @@ const materias = Router()
 
 materias.get('/', async (req, res) => {
     const materias = await Materia.findAll()
+
     res.status(201).json(materias)
 })
 

@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize'
 import db from '../config/db.js';
+import Grupo from './grupo.js';
 
 const Usuario = db.define('Usuario', {
     // Definir los campos del modelo
@@ -17,7 +18,9 @@ const Usuario = db.define('Usuario', {
         allowNull: false
     },
 },
-    { modelName: "Usuarios" }
+    { tableName: "Usuarios" }
 );
+Usuario.belongsToMany(Grupo,{through: 'Usuario_Grupo'})
+Grupo.belongsToMany(Usuario,{through: 'Usuario_Grupo'})
 
 export default Usuario;

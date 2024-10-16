@@ -1,12 +1,17 @@
 import express from "express";
+
 import usuarios from './routes/usuarios.js'
 import materiales from "./routes/materiales.js";
 import materias from "./routes/materias.js";
+
+
 import auth from "./routes/auth.js";
+
 import cors from "cors";
 
 const app = express();
 const port = process.env.PORT;
+
 
 app.use(cors());
 app.use(express.json());

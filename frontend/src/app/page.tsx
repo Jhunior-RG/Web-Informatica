@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
 import {
     Article,
@@ -7,20 +7,66 @@ import {
     CheckCircleOutlineOutlined,
 } from "@mui/icons-material";
 import Link from "next/link";
-
 export default function Home() {
+    const [usuario, setUsuario] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            return;
+        }
+        const getUsuario = async () => {
+            try {
+                const res = await fetch("http://localhost:4000/api/perfil", {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    setUsuario(data);
+                    console.log(data.nombre);
+                } else {
+                    localStorage.removeItem("token");
+                }
+            } catch (err) {
+                localStorage.removeItem("token");
+            }
+        };
+        getUsuario();
+    }, []);
+
     return (
         <div className="flex flex-col justify-between">
             {/* Sección de encabezado con imagen de fondo */}
             <div className="flex flex-col w-full h-screen bg-cover bg-center bg-no-repeat items-center justify-between p-4 relative image-background">
-                <div className="flex justify-center space-x-4 w-full z-10 p-4">
-                    <Link href="/login" className=" bg-indigo-600 text-white rounded-lg py-2 px-4 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 text-sm sm:text-base">
-                            Inicia Sesión
-                    </Link>
-                    <Link href="/register" className=" bg-indigo-600 text-white rounded-lg py-2 px-4 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 text-sm sm:text-base">
-                            Regístrate
-                        
-                    </Link>
+                <div className="flex justify-center space-x-4 w-full z-10 p-4 ">
+                    {usuario ? (
+                        <>
+                        <p className="text-white text-xl">
+
+                            Bienvenido {usuario.nombre}
+                        </p>
+                        </>
+                    ) : (
+                        <>
+                            <Link
+                                href="/login"
+                                className=" bg-indigo-600 text-white rounded-lg py-2 px-4 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 text-sm sm:text-base"
+                            >
+                                Inicia Sesión
+                            </Link>
+                            <Link
+                                href="/register"
+                                className=" bg-indigo-600 text-white rounded-lg py-2 px-4 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 text-sm sm:text-base"
+                            >
+                                Regístrate
+                            </Link>
+                        </>
+                    )}
                 </div>
 
                 {/* Capa de superposición para hacer el texto más legible */}
@@ -108,7 +154,11 @@ interface FuncionalidadProps {
     href: string;
 }
 
-const Funcionalidad: React.FC<FuncionalidadProps> = ({ MuiIcon, title, href }) => {
+const Funcionalidad: React.FC<FuncionalidadProps> = ({
+    MuiIcon,
+    title,
+    href,
+}) => {
     return (
         <Link href={href}>
             <button className="group rounded-lg h-full bg-indigo-700 p-4 shadow-lg  hover:text-white flex flex-col items-center justify-center transition duration-300 transform  w-full">
@@ -121,7 +171,7 @@ const Funcionalidad: React.FC<FuncionalidadProps> = ({ MuiIcon, title, href }) =
             </button>
         </Link>
     );
-}
+};
 
 interface CaracteristicaProps {
     title: string;
@@ -129,7 +179,11 @@ interface CaracteristicaProps {
     icon: React.ReactNode; // El icono puede ser cualquier nodo React
 }
 
-const Caracteristica: React.FC<CaracteristicaProps> = ({ title, description, icon }) => {
+const Caracteristica: React.FC<CaracteristicaProps> = ({
+    title,
+    description,
+    icon,
+}) => {
     return (
         <div className="flex flex-col items-center text-center p-4 rounded-lg bg-gray-800 shadow-md">
             {icon}
@@ -139,4 +193,4 @@ const Caracteristica: React.FC<CaracteristicaProps> = ({ title, description, ico
             <p className="text-sm sm:text-base text-gray-400">{description}</p>
         </div>
     );
-}
+};

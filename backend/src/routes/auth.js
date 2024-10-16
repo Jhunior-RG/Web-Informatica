@@ -26,7 +26,9 @@ auth.post('/register', async (req, res) => {
 auth.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body
-        const usuario = await Usuario.findOne({ email })
+        console.log(req.body)
+        const usuario = await Usuario.findOne({ where: { email } })
+        console.log(usuario)
         if (!usuario) {
             res.status(404).json({ message: 'Usuario no encontrado' })
             return
@@ -37,7 +39,6 @@ auth.post('/login', async (req, res) => {
         }
 
         const token = jwt.sign({ id: usuario.id }, JWT_SECRET, { expiresIn: '1h' });
-
         res.status(200).json({ message: "Inicio de sesion exitoso", token })
     } catch (e) {
         res.status(400).json({ message: e.message })

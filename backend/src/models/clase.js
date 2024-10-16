@@ -8,6 +8,12 @@ const Clase = db.define('Clase', {
     },
     lugar: {
         type: DataTypes.STRING
+    },
+    horaInicio: {
+        type: DataTypes.TIME
+    },
+    horaFin: {
+        type: DataTypes.TIME
     }
 },
     { modelName: "Clases" }

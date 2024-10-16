@@ -22,6 +22,8 @@ db
     .catch((error) => {
         console.error("No se pudo conectar a la base de datos:", error);
     });
+
+    
 db.sync({ alter: true })
 
 export default db

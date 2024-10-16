@@ -11,12 +11,12 @@ const Clase = db.define('Clase', {
     },
     horaInicio: {
         type: DataTypes.TIME
-    },
+    }, 
     horaFin: {
         type: DataTypes.TIME
     }
 },
-    { modelName: "Clases" }
+    { tableName: "Clases" }
 )
 
 

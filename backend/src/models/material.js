@@ -22,13 +22,11 @@ const Material = db.define('Material', {
     }
 },
     {
-        modelName: "Materiales"
+        tableName: "Materiales"
     }
 );
 
-Materia.hasMany(Material, {
-    foreignKey: 'idMateria',
-})
+
 
 
 export default Material;

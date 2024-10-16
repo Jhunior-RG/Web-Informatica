@@ -20,13 +20,6 @@ const Materia = db.define('Materia', {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     }
-}, { modelName: "Materias" });
-
-Materia.hasMany(Grupo, {
-    foreignKey: {
-        name: 'idMateria',
-    },
-})
-
+}, { tableName: "Materias" });
 
 export default Materia;

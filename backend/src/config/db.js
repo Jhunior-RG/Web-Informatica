@@ -13,17 +13,5 @@ const db = new Sequelize(
     }
 );
 
-// Probar la conexión
-db
-    .authenticate()
-    .then(() => {
-        console.log("Conexión exitosa con la base de datos.");
-    })
-    .catch((error) => {
-        console.error("No se pudo conectar a la base de datos:", error);
-    });
-
-    
-db.sync({ alter: true })
 
 export default db

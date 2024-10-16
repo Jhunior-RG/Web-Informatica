@@ -20,7 +20,6 @@ const Usuario = db.define('Usuario', {
 },
     { tableName: "Usuarios" }
 );
-Usuario.belongsToMany(Grupo,{through: 'Usuario_Grupo'})
-Grupo.belongsToMany(Usuario,{through: 'Usuario_Grupo'})
+
 
 export default Usuario;

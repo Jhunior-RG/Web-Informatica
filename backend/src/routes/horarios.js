@@ -19,8 +19,9 @@ horarios.get('/', async (req, res) => {
                 {
                     model: Clase
                 }, {
-
                     model: Materia,
+                    
+
                 }
             ]
         }
@@ -37,12 +38,11 @@ horarios.get('/', async (req, res) => {
                 lugar: clase.lugar,
                 horaInicio: clase.horaInicio,
                 horaFin: clase.horaFin,
-                dia: clase.dia, 
+                dia: clase.dia,
             };
         });
     });
-
-
+    
     const clasesPorDia = {};
     clases.forEach(clase => {
         const dia = clase.dia;
@@ -51,52 +51,49 @@ horarios.get('/', async (req, res) => {
         }
         clasesPorDia[dia].push(clase);
     });
-
     for (const dia in clasesPorDia) {
         clasesPorDia[dia].sort((a, b) => {
             return a.horaInicio.localeCompare(b.horaInicio);
         });
     }
 
-    res.status(201).json({
-        "clases": clasesPorDia
-    })
+    res.status(201).json(clasesPorDia)
 })
 
-horarios.get('/', async (req, res) => {
-      try {
-        const semestres = await Semestre.findAll(); 
+horarios.get('/semestre', async (req, res) => {
+    try {
+        const semestres = await Semestre.findAll();
         res.json(semestres);
-      } catch (error) {
-        console.error(error); 
-        res.status(500).send("Error al obtener los semestres"); 
-      }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error al obtener los semestres");
+    }
 })
 
 horarios.get("/:id/materias", async (req, res) => {
-  const { id } = req.params; 
-  try {
-    const semestre = await Semestre.findByPk(id);
-    if (!semestre) {
-      return res.status(404).send("Semestre no encontrado");
+    const { id } = req.params;
+    try {
+        const semestre = await Semestre.findByPk(id);
+        if (!semestre) {
+            return res.status(404).send("Semestre no encontrado");
+        }
+
+        const materias = await Materia.findAll({
+            where: { idSemestre: id },
+        });
+
+        res.json(materias);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error al obtener las materias"); error
     }
-
-    const materias = await Materia.findAll({
-      where: { semestre: id },
-    });
-
-    res.json(materias); 
-  } catch (error) {
-    console.error(error); 
-    res.status(500).send("Error al obtener las materias"); error
-  }
 });
 
 horarios.get("/:id/grupos", async (req, res) => {
     const { id } = req.params;
     try {
         const grupos = await Grupo.findAll({
-            where: {idMateria: id },
+            where: { idMateria: id },
         })
         res.json(grupos)
 

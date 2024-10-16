@@ -1,7 +1,6 @@
-        import db from "../config/db.js";
-import Clase from "./clase.js";
+import db from "../config/db.js";
 import { DataTypes } from "sequelize";
-import Materia from "./materia.js";
+
 
 
 const Grupo = db.define('Grupo', {

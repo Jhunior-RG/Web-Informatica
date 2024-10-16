@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize'
 import db from '../config/db.js';
-import Grupo from './grupo.js'
 
 
 const Materia = db.define('Materia', {
@@ -20,6 +19,8 @@ const Materia = db.define('Materia', {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     }
-}, { tableName: "Materias" });
+}, { modelName: "Materias", timestamps: false});
+
+
 
 export default Materia;

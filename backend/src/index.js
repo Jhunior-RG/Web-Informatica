@@ -3,6 +3,12 @@ import express from "express";
 import materias from "./routes/materias.js";
 import usuarios from './routes/usuarios.js'
 import materiales from "./routes/materiales.js";
+<<<<<<< HEAD
+=======
+import materias from "./routes/materias.js";
+import horarios from './routes/horarios.js'
+
+>>>>>>> e61a122ba6ccb03ab359ea2409dca1cb6a244ea6
 
 import auth from "./routes/auth.js";
 
@@ -42,6 +48,7 @@ app.use("/api/usuario", usuarios)
 app.use('/api/material', materiales)
 app.use('/api/materia', materias)
 app.use('/api/horario', horarios)
+app.use('/api/horarios', horarios)
 
 //app.use('/api/semestre',semestres)
 //app.use('/api/clase',clases)

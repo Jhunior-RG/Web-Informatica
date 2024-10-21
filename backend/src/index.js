@@ -5,11 +5,14 @@ import usuarios from './routes/usuarios.js'
 import materiales from "./routes/materiales.js";
 import horarios from './routes/horarios.js'
 
+
 import auth from "./routes/auth.js";
 
 import cors from "cors";
 import setupAssociations from './models/associations.js';
 import db from "./config/db.js";
+import semestres from "./routes/semestres.js";
+import grupos from "./routes/grupos.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -36,14 +39,15 @@ app.use(express.json());
 app.use('/image', express.static('image'));
 
 app.use('/api', auth)
-app.use("/api/usuario", usuarios)
-app.use('/api/material', materiales)
-app.use('/api/materia', materias)
-app.use('/api/horario', horarios)
+app.use("/api/usuarios", usuarios)
+app.use('/api/materiales', materiales)
+app.use('/api/materias', materias)
 app.use('/api/horarios', horarios)
+app.use('/api/grupos',grupos)
 
-//app.use('/api/semestre',semestres)
+app.use('/api/semestres',semestres)
 //app.use('/api/clase',clases)
+
 
 
 

@@ -9,7 +9,7 @@ import Semestre from "./semestre.js"
 export default function setupAssociations() {
     Grupo.belongsToMany(Usuario, { through: 'Usuario_Grupo' })
     Usuario.belongsToMany(Grupo, { through: 'Usuario_Grupo' })
-    
+
 
     Materia.hasMany(Grupo, { foreignKey: "idMateria" })
     Grupo.belongsTo(Materia, { foreignKey: 'idMateria' })
@@ -20,9 +20,10 @@ export default function setupAssociations() {
             foreignKey: 'idGrupo'
         }
     )
+    Clase.belongsTo(Grupo, { foreignKey: 'idGrupo' });
 
-    Materia.belongsTo(Semestre, { foreignKey: 'idSemestre' })
     Semestre.hasMany(Materia, {
         foreignKey: 'idSemestre'
     })
+    Materia.belongsTo(Semestre, { foreignKey: 'idSemestre' })
 }

@@ -29,12 +29,8 @@ auth.post('/login', async (req, res) => {
         console.log(req.body)
         const usuario = await Usuario.findOne({ where: { email } })
         console.log(usuario)
-        if (!usuario) {
-            res.status(404).json({ message: 'Usuario no encontrado' })
-            return
-        }
-        if (usuario.password !== password) {
-            res.status(401).json({ message: 'Invalid email or password' })
+        if (!usuario && usuario.password !== password) {
+            res.status(404).json({ message: 'Invalid email or password' })
             return
         }
 

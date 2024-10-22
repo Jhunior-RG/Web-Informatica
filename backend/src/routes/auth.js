@@ -34,7 +34,7 @@ auth.post('/login', async (req, res) => {
             return
         }
 
-        const token = jwt.sign({ id: usuario.id }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: usuario.id }, JWT_SECRET, { expiresIn: '1d' });
         res.status(200).json({ message: "Inicio de sesion exitoso", token })
     } catch (e) {
         res.status(400).json({ message: e.message })

@@ -3,14 +3,13 @@ import Grupo from "../models/grupo.js";
 import Usuario from "../models/usuario.js";
 import Clase from "../models/clase.js";
 import Materia from "../models/materia.js";
-import Semestre from '../models/semestre.js'
+import authToken from "../middlewares/authToken.js";
 
 const horarios = Router();
 
 
-horarios.get('/', async (req, res) => {
-    //const { id } = req.usuario;
-    const id = 1
+horarios.get('/', authToken, async (req, res) => {
+    const { id } = req.usuario
 
     const usuario = await Usuario.findByPk(id, {
         include: {
@@ -32,6 +31,8 @@ horarios.get('/', async (req, res) => {
     const clases = usuario.Grupos.flatMap(grupo => {
         return grupo.Clases.map(clase => {
             return {
+                idGrupo: grupo.id,
+                docente: grupo.docente,
                 materia: grupo.Materium.nombre,
                 lugar: clase.lugar,
                 horaInicio: clase.horaInicio,
@@ -58,7 +59,6 @@ horarios.get('/', async (req, res) => {
     res.status(201).json(clasesPorDia)
 })
 
-
 horarios.get("/:id/grupos", async (req, res) => {
     const { id } = req.params;
     try {
@@ -71,6 +71,25 @@ horarios.get("/:id/grupos", async (req, res) => {
         console.error(error);
         res.status(500).send("Error al obtener los grupos");
         error;
+    }
+})
+
+horarios.post('/', authToken, async (req, res) => {
+   
+    const { id } = req.usuario;
+    const { idGrupo } = req.body
+
+    try {
+        const grupo = await Grupo.findByPk(idGrupo);
+        const usuario = await Usuario.findByPk(id);
+
+        if (!await usuario.hasGrupo(grupo)) {
+            usuario.addGrupo(grupo)
+        }
+        res.json({ 'message': "se agrego la clase con exito" })
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ message: 'Error agregar la clase' });
     }
 })
 

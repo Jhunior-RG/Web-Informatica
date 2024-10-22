@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { LockOutlined, EmailOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import {useRouter } from "next/navigation";
+import { BACKEND_URL } from "@/constant/backend";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ export default function Login() {
         console.log(data);
 
 
-        const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+       
 
         const res = await fetch(`${BACKEND_URL}/api/login`, {
             method: "POST",

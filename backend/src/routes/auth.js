@@ -28,14 +28,12 @@ auth.post('/login', async (req, res) => {
         const { email, password } = req.body
         console.log(req.body)
         const usuario = await Usuario.findOne({ where: { email } })
-        console.log(usuario)
-        if (!usuario && usuario.password !== password) {
-            res.status(404).json({ message: 'Invalid email or password' })
+        if (usuario.password === password) {
+            const token = jwt.sign({ id: usuario.id }, JWT_SECRET, { expiresIn: '1d' });
+            res.status(200).json({ message: "Inicio de sesion exitoso", token })
             return
-        }
-
-        const token = jwt.sign({ id: usuario.id }, JWT_SECRET, { expiresIn: '1d' });
-        res.status(200).json({ message: "Inicio de sesion exitoso", token })
+        }   
+        res.status(400).json({ message: 'Invalid email or password' })
     } catch (e) {
         res.status(400).json({ message: e.message })
     }

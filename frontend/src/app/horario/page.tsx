@@ -1,19 +1,22 @@
 "use client";
 
+import AddClassModal from "@/components/AddClassModal";
+import FadeIn from "@/components/FadeIn";
+import TypingEffect from "@/components/TypingEffect";
 import { BACKEND_URL } from "@/constant/backend";
 import { Add } from "@mui/icons-material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-// Mock data for demonstration purposes
 const Page = () => {
   const [daySelected, setDaySelected] = useState(0);
   const [clases, setClases] = useState<Clase[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sabado"];
   const router = useRouter();
   useEffect(() => {
-
+    
     const getHorarios = async () => {
       
       const res = await fetch(BACKEND_URL + "/api/horarios", {
@@ -45,58 +48,59 @@ const Page = () => {
   return (
     <div className="container mx-auto p-5 space-y-5">
       {/* Header Section */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="font-bold text-3xl text-white">Horario</h1>
-        <Link
-          href="/horario/agregar_clase"
-          className="bg-indigo-600 text-white flex items-center rounded-full px-5 py-2 space-x-2 hover:bg-indigo-700 transition"
-        >
-          <Add />
-          <span>Agregar Clase</span>
-        </Link>
-      </div>
+      <FadeIn>
+        <div className="flex justify-between items-center mb-4">
+          <Link href="/">
+            <TypingEffect text="Horario" />
+          </Link>
+
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-indigo-600 text-white flex items-center rounded-full px-5 py-2 space-x-2 hover:bg-indigo-700 transition"
+          >
+            <Add />
+            Agregar
+          </button>
+        </div>
+      </FadeIn>
 
       {/* Days Selector */}
-      <div className="flex justify-between bg-gray-900 p-3 rounded-xl shadow-md overflow-auto">
-        {days.map((day, index) => (
-          <button
-            key={index}
-            onClick={() => setDaySelected(index)}
-            className={`py-2 px-4 font-semibold transition rounded-lg ${
-              index === daySelected
-                ? "text-indigo-700 bg-indigo-100 border-b-4 border-indigo-700"
-                : "text-gray-300"
-            }`}
-          >
-            {day}
-          </button>
-        ))}
-      </div>
+      <FadeIn delay={500}>
+        <div className="flex justify-between bg-gray-900 p-3 rounded-xl shadow-md overflow-auto">
+          {days.map((day, index) => (
+            <button
+              key={index}
+              onClick={() => setDaySelected(index)}
+              className={`py-2 px-4 font-semibold transition rounded-lg ${
+                index === daySelected
+                  ? "text-indigo-700 bg-indigo-100 border-b-4 border-indigo-700"
+                  : "text-gray-300"
+              }`}
+            >
+              {day}
+            </button>
+          ))}
+        </div>
+      </FadeIn>
 
       {/* Clase List for the Selected Day */}
-      <div className="space-y-4">
-        {clases[daySelected]?.length > 0 ? (
-          clases[daySelected].map((clase, index) => (
-            <Clase key={index} clase={clase} />
-          ))
-        ) : (
-          <h1 className="text-xl text-white">
-            NO HAY CLASES EL DIA {days[daySelected]}
-          </h1>
-        )}
-
-        {/*clases[daySelected]?.length > 0 ? (
-                    clases[daySelected].map((clase, index) => (
-                        <Clase clase={clase} key={index} />
-                    ))
-                ) : (
-                    <div className="text-center text-gray-500 p-5 flex flex-col items-center">
-                        <p className="font-semibold mb-2">
-                            No hay clases programadas para este día.
-                        </p>
-                    </div>
-                )*/}
-      </div>
+      <FadeIn delay={1000}>
+        <div className="space-y-4">
+          {clases[daySelected]?.length > 0 ? (
+            clases[daySelected].map((clase, index) => (
+              <Clase key={index} clase={clase} />
+            ))
+          ) : (
+            <h1 className="text-xl text-white">
+              NO HAY CLASES EL DIA {days[daySelected]}
+            </h1>
+          )}
+        </div>
+      </FadeIn>
+      <AddClassModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };

@@ -9,6 +9,8 @@ import {
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
 import TypingEffect from "@/components/TypingEffect";
+import FadeIn from "@/components/FadeIn";
+
 export default function Home() {
   const [usuario, setUsuario] = useState(null);
   const [reload, setReload] = useState(false);
@@ -48,54 +50,60 @@ export default function Home() {
       {/* Sección de encabezado con imagen de fondo */}
       <div className="flex flex-col w-full h-screen bg-cover bg-center bg-no-repeat items-center justify-between p-4 relative image-background">
         <div className="flex  justify-center space-x-4 w-full z-10 p-4 ">
-          {usuario ? (
-            <div className="flex flex-col items-center justify-between">
-              <p className="text-white text-xl mb-2">
-                Bienvenido {usuario.nombre}
-              </p>
-              <LogoutButton
-                recargar={() => {
-                  setReload(!reload);
-                  setThereToken(false);
-                }}
-              />
-            </div>
-          ) : (
-            <>
-              <Link
-                href="/login"
-                className=" bg-indigo-600 text-white rounded-lg py-2 px-4 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 text-sm sm:text-base"
-              >
-                Inicia Sesión
-              </Link>
-              <Link
-                href="/register"
-                className=" bg-indigo-600 text-white rounded-lg py-2 px-4 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 text-sm sm:text-base"
-              >
-                Regístrate
-              </Link>
-            </>
-          )}
+          <FadeIn delay={500}>
+            {usuario ? (
+              <div className="flex flex-col items-center justify-between">
+                <p className="text-white text-xl mb-2">
+                  Bienvenido {usuario.nombre}
+                </p>
+                <LogoutButton
+                  recargar={() => {
+                    setReload(!reload);
+                    setThereToken(false);
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="space-x-2">
+                <Link
+                  href="/login"
+                  className=" bg-indigo-600 text-white rounded-lg py-2 px-4 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 text-sm sm:text-base"
+                >
+                  Inicia Sesión
+                </Link>
+                <Link
+                  href="/register"
+                  className=" bg-indigo-600 text-white rounded-lg py-2 px-4 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 text-sm sm:text-base"
+                >
+                  Regístrate
+                </Link>
+              </div>
+            )}
+          </FadeIn>
         </div>
 
         {/* Capa de superposición para hacer el texto más legible */}
         <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+
         <div className="text-center relative z-10 px-4">
-          <TypingEffect text="Ingeneria Informática" speed={100}/>
-          <h1 className="hidden">
-            Ingeniería Informática
-          </h1>
-          <p className="text-base sm:text-lg text-white drop-shadow-md">
-            Accede a materiales de estudio, gestiona tu horario y consulta tu
-            plan de estudios de manera eficiente.
-          </p>
+          <FadeIn>
+            <TypingEffect text="Ingeneria Informática" speed={100} />
+            <h1 className="hidden">Ingeniería Informática</h1>
+          </FadeIn>
+          <FadeIn delay={1500}>
+            <p className="text-base sm:text-lg text-white drop-shadow-md">
+              Accede a materiales de estudio, gestiona tu horario y consulta tu
+              plan de estudios de manera eficiente.
+            </p>
+          </FadeIn>
         </div>
-        <p className="text-white animate-bounce mb-10 relative z-10">
-          Desliza hacia abajo
-        </p>
+        <FadeIn delay={1000}>
+          <p className="text-white animate-bounce mb-10 relative z-10">
+            Desliza hacia abajo
+          </p>
+        </FadeIn>
       </div>
 
-      {/* Sección de funcionalidades destacadas */}
       <section className="w-full py-12 bg-gray-900">
         <h3 className="text-2xl font-semibold text-white text-center mb-6 px-4">
           Accede a las siguientes funcionalidades

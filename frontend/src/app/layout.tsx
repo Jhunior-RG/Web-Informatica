@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { montserrat } from "./fonts/fonts";
+import {silkscreen} from './fonts/fonts'
 
 export const metadata: Metadata = {
     title: "Informatica Web",
@@ -15,7 +16,7 @@ export default function RootLayout({
     return (
         <html lang="es">
             <body
-                className={`h-full ${montserrat.className} antialiased bg-gray-900`}
+                className={`h-full ${montserrat.className} ${silkscreen.variable} antialiased bg-gray-900`}
             >
              
                 {children}

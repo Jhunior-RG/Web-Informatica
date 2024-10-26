@@ -16,7 +16,8 @@ const Clase = db.define('Clase', {
         type: DataTypes.TIME
     }
 },
-    { tableName: "Clases" }
+    { tableName: "Clases" ,
+    timestamps: false}
 )
 
 

@@ -1,32 +1,29 @@
-import { DataTypes } from 'sequelize'
-import db from '../config/db.js';
-import Materia from './materia.js';
+import { DataTypes } from "sequelize";
+import db from "../config/db.js";
 
-const Material = db.define('Material', {
-
+const Material = db.define(
+  "Material",
+  {
     url: {
-        type: DataTypes.STRING,
-        allowNull: true
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     nombre: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     id_materia: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'Materia',
-            key: 'id'
-        },
-        allowNull: false
-    }
-},
-    {
-        tableName: "Materiales"
-    }
+      type: DataTypes.INTEGER,
+      references: {
+        model: "Materia",
+        key: "id",
+      },
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "Materiales",
+  }
 );
-
-
-
 
 export default Material;

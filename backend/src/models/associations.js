@@ -3,12 +3,13 @@ import Materia from "./materia.js"
 import Grupo from "./grupo.js"
 import Clase from "./clase.js"
 import Semestre from "./semestre.js"
+import Usuario_Grupo from './usuario_grupo.js';
 
 
 
 export default function setupAssociations() {
-    Grupo.belongsToMany(Usuario, { through: 'Usuario_Grupo' })
-    Usuario.belongsToMany(Grupo, { through: 'Usuario_Grupo' })
+    Grupo.belongsToMany(Usuario, { through: Usuario_Grupo})
+    Usuario.belongsToMany(Grupo, { through: Usuario_Grupo })
 
 
     Materia.hasMany(Grupo, { foreignKey: "idMateria" })

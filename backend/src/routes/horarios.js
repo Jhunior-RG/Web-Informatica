@@ -9,7 +9,7 @@ const horarios = Router();
 
 
 horarios.get('/', authToken, async (req, res) => {
-    const { id } = req.usuario
+    const  {id}  = req.usuario;
 
     const usuario = await Usuario.findByPk(id, {
         include: {
@@ -33,7 +33,7 @@ horarios.get('/', authToken, async (req, res) => {
             return {
                 idGrupo: grupo.id,
                 docente: grupo.docente,
-                materia: grupo.Materium.nombre,
+                materia: grupo.nombre,
                 lugar: clase.lugar,
                 horaInicio: clase.horaInicio,
                 horaFin: clase.horaFin,
@@ -41,7 +41,7 @@ horarios.get('/', authToken, async (req, res) => {
             };
         });
     });
-
+    console.log(clases)
     const clasesPorDia = {};
     clases.forEach(clase => {
         const dia = clase.dia;
@@ -55,8 +55,8 @@ horarios.get('/', authToken, async (req, res) => {
             return a.horaInicio.localeCompare(b.horaInicio);
         });
     }
-
-    res.status(201).json(clasesPorDia)
+    console.log(clasesPorDia)
+    res.status(201).json({hola: "hola mundo", "data" : clasesPorDia})
 })
 
 horarios.get("/:id/grupos", async (req, res) => {

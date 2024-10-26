@@ -16,4 +16,5 @@ const Semestre = db.define("Semestre", {
   timestamps: false
 });
 
+
 export default Semestre;

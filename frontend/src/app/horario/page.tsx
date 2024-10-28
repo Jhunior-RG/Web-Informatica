@@ -7,7 +7,7 @@ import { BACKEND_URL } from "@/constant/backend";
 import { Add } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, spring } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Page = () => {
     const [daySelected, setDaySelected] = useState(0);
@@ -27,8 +27,8 @@ const Page = () => {
         router.push("/login");
     }
 
-    useEffect(() => {
-        const getHorarios = async () => {
+    const getHorarios = async () => {
+        try {
             const res = await fetch(BACKEND_URL + "/api/horarios", {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -37,16 +37,46 @@ const Page = () => {
             });
             if (res.ok) {
                 const { data } = await res.json();
-                console.log(data);
                 const horario = days.map((day) =>
                     data[day] === undefined ? [] : data[day]
                 );
 
                 setClases(horario);
             }
-        };
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    useEffect(() => {
         getHorarios();
-    }, [isModalOpen]);
+    }, []);
+
+    const removeGroup = async (idGrupo: string) => {
+        try {
+            const res = await fetch(
+                BACKEND_URL + "/api/horarios/grupos/" + idGrupo,
+                {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            if (res.ok) {
+                const { message } = await res.json();
+                console.log(message);
+                getHorarios();
+            } else {
+                const { error } = await res.json();
+                console.error("Error al eliminar grupo:", error);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     return (
         <div className="container mx-auto p-5 space-y-5">
@@ -88,7 +118,7 @@ const Page = () => {
                         {days[daySelected] === day ? (
                             <motion.div
                                 layoutId="fondo"
-                                className="absolute inset-0 bg-gray-100 rounded-lg h-full flex items-center justify-center pointer-events-none "
+                                className="absolute inset-0 bg-gray-100 rounded-full flex items-center justify-center shadow-md border-b-4 border-l-4 border-indigo-500"
                             >
                                 {day}
                             </motion.div>
@@ -104,16 +134,20 @@ const Page = () => {
                     <motion.div
                         key={daySelected}
                         layoutId={`clases-${daySelected}`}
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -50 }}
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.5 }}
                         transition={{ duration: 0.4 }}
                         className="space-y-4 md:w-4/5 mx-auto"
                     >
                         {clases[daySelected]?.length > 0 ? (
                             clases[daySelected].map(
                                 (clase: Clase, index: number) => (
-                                    <Clase key={index} clase={clase} />
+                                    <Clase
+                                        key={index}
+                                        clase={clase}
+                                        removeGroup={removeGroup}
+                                    />
                                 )
                             )
                         ) : (
@@ -133,15 +167,20 @@ const Page = () => {
             <AnimatePresence>
                 {isModalOpen && (
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{
+                            opacity: 1,
+                            scale: 1,
+                            backgroundColor: "rgba(0, 0, 0,0.5)",
+                        }}
+                        exit={{ opacity: 0, scale: 0.5 }}
                         transition={{ duration: 0.3 }}
-                        className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+                        className="fixed inset-0 flex items-center justify-center "
                     >
                         <AddClassModal
                             isOpen={isModalOpen}
                             onClose={() => setIsModalOpen(false)}
+                            getHorarios={getHorarios}
                         />
                     </motion.div>
                 )}
@@ -151,6 +190,7 @@ const Page = () => {
 };
 interface Clase {
     idGrupo: string;
+    grupo: string;
     materia: string;
     docente: string;
     lugar: string;
@@ -161,9 +201,10 @@ interface Clase {
 
 interface ClaseProps {
     clase: Clase;
+    removeGroup?: (idGrupo: string) => void;
 }
 
-const Clase: React.FC<ClaseProps> = ({ clase }) => {
+const Clase: React.FC<ClaseProps> = ({ clase, removeGroup }) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -172,9 +213,31 @@ const Clase: React.FC<ClaseProps> = ({ clase }) => {
             transition={{ type: "spring", stiffness: 120, damping: 15 }}
             className="bg-gray-800 rounded-2xl shadow-lg p-5 hover:shadow-xl transition-shadow"
         >
-            <motion.h2 className="font-bold text-xl mb-2 text-indigo-600">
-                {clase.materia}
-            </motion.h2>
+            <motion.div className="font-bold text-xl mb-2 text-indigo-600 grid grid-cols-4 w-full">
+                <p className="text-indigo-500 px-5 col-span-2">
+                    {clase.materia}
+                </p>
+                <p>{clase.grupo}</p>
+                {removeGroup && (
+                    <motion.button
+                        onClick={() => removeGroup(clase.idGrupo)}
+                        whileHover={{
+                            backgroundColor: "red",
+                            color: "white",
+                            rotate: 180,
+                        }}
+                        initial={{
+                            rotate: 0,
+                            backgroundColor: "white",
+                            color: "black",
+                        }}
+                        transition={{ duration: 0.5 }}
+                        className="rounded-full  w-8 h-8 justify-self-end"
+                    >
+                        x
+                    </motion.button>
+                )}
+            </motion.div>
             <motion.p className="text-gray-400 mb-1">
                 <span className="font-semibold">Profesor:</span> {clase.docente}
             </motion.p>

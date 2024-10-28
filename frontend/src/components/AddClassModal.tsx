@@ -1,12 +1,14 @@
 "use client";
 
 import { BACKEND_URL } from "@/constant/backend";
+import { token } from "@/constant/token";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface AddClassModalProps {
     isOpen: boolean;
     onClose: () => void;
+    getHorarios: () => void;
 }
 
 interface Semestre {
@@ -32,7 +34,7 @@ interface Clase {
     horaFin: number;
 }
 
-const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose }) => {
+const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose,getHorarios }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [semestres, setSemestres] = useState<Semestre[]>([]);
     const [materias, setMaterias] = useState<Materia[]>([]);
@@ -120,7 +122,7 @@ const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose }) => {
             idGrupo: grupoSeleccionado,
         };
         const token = localStorage.getItem("token");
-        const res = await fetch(BACKEND_URL + "/api/horarios", {
+        const res = await fetch(BACKEND_URL + "/api/horarios/grupos", {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -142,6 +144,7 @@ const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose }) => {
             }
             console.error("message: ", message);
         }
+        getHorarios();
     };
 
     if (!isOpen) return null;
@@ -157,7 +160,6 @@ const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose }) => {
                 if (e.target === e.currentTarget) onClose();
             }}
         >
-            <div className="fixed inset-0 bg-black bg-opacity-50" />
             <div className="min-h-screen px-4 text-center flex items-center justify-center">
                 <div
                     className="inline-block w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-800 shadow-xl rounded-lg"

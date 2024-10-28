@@ -1,6 +1,7 @@
+'use client'
 import Link from "next/link";
 import { YouTube, Download, Add } from "@mui/icons-material";
-import introduccionImg from "../../../public/introduccion.png";
+import introduccionImg from "../../../../public/introduccion.png";
 import type { SvgIconProps } from "@mui/material";
 const MaterialPage = () => {
     return (

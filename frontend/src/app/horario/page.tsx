@@ -8,6 +8,7 @@ import { Add } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { token } from "@/constant/token";
 
 const Page = () => {
     const [daySelected, setDaySelected] = useState(0);
@@ -22,11 +23,7 @@ const Page = () => {
         "Sabado",
     ];
     const router = useRouter();
-    const token = localStorage.getItem("token");
-    if (!token) {
-        router.push("/login");
-    }
-
+    
     const getHorarios = async () => {
         try {
             const res = await fetch(BACKEND_URL + "/api/horarios", {
@@ -49,6 +46,9 @@ const Page = () => {
     };
 
     useEffect(() => {
+        if (!token) {
+            router.push("/login");
+        }
         getHorarios();
     }, []);
 
@@ -106,6 +106,7 @@ const Page = () => {
                         className={`relative py-2 px-4 font-semibold transition rounded-lg text-indigo-700 w-full`}
                     >
                         <motion.p
+                            whileHover={{scale:1.2}}
                             className={
                                 index === daySelected
                                     ? "text-transparent"
@@ -118,7 +119,8 @@ const Page = () => {
                         {days[daySelected] === day ? (
                             <motion.div
                                 layoutId="fondo"
-                                className="absolute inset-0 bg-gray-100 rounded-full flex items-center justify-center shadow-md border-b-4 border-l-4 border-indigo-500"
+                                className="absolute inset-0 bg-gray-100 rounded-full flex items-center justify-center shadow-md border-b-4 border-l-4 border-indigo-700"
+                                transition={{ duration: 0.5 }}
                             >
                                 {day}
                             </motion.div>
@@ -137,7 +139,7 @@ const Page = () => {
                         initial={{ opacity: 0, scale: 0.5 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.5 }}
-                        transition={{ duration: 0.4 }}
+                        transition={{ duration: 0.8, type: "spring" }}
                         className="space-y-4 md:w-4/5 mx-auto"
                     >
                         {clases[daySelected]?.length > 0 ? (
@@ -174,7 +176,7 @@ const Page = () => {
                             backgroundColor: "rgba(0, 0, 0,0.5)",
                         }}
                         exit={{ opacity: 0, scale: 0.5 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.1 }}
                         className="fixed inset-0 flex items-center justify-center "
                     >
                         <AddClassModal
@@ -224,14 +226,13 @@ const Clase: React.FC<ClaseProps> = ({ clase, removeGroup }) => {
                         whileHover={{
                             backgroundColor: "red",
                             color: "white",
-                            rotate: 180,
                         }}
                         initial={{
                             rotate: 0,
                             backgroundColor: "white",
                             color: "black",
                         }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.5}}
                         className="rounded-full  w-8 h-8 justify-self-end"
                     >
                         x

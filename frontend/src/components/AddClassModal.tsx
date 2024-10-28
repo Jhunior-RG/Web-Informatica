@@ -1,7 +1,6 @@
 "use client";
 
 import { BACKEND_URL } from "@/constant/backend";
-import { token } from "@/constant/token";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

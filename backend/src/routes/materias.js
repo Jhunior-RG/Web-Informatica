@@ -8,9 +8,13 @@ import Usuario from '../models/usuario.js'
 const materias = Router()
 
 materias.get('/', async (req, res) => {
-    const materias = await Materia.findAll()
-
-    res.status(201).json(materias)
+    try{
+        const materias = await Materia.findAll()
+        res.status(201).json({ data: materias, message: "se obtuvo todas las materias correctamente" })
+    }catch(e){
+        console.error(e);
+        res.status(500).send("Error al obtener las materias");
+    }
 })
 
 materias.post('/', upload.single('imagen'), async (req, res) => {
@@ -64,7 +68,7 @@ materias.get('/semestres', async (req, res) => {
 materias.get('/usuario/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const usuario = await Usuario.findByPk(id,{
+        const usuario = await Usuario.findByPk(id, {
             include: {
                 model: Grupo,
                 include: [

@@ -7,6 +7,7 @@ import { BACKEND_URL } from "@/constant/backend";
 import { Add } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion, spring } from "framer-motion";
 
 const Page = () => {
     const [daySelected, setDaySelected] = useState(0);
@@ -47,9 +48,6 @@ const Page = () => {
         getHorarios();
     }, [isModalOpen]);
 
-    console.log(clases);
-    console.log(clases[daySelected]);
-
     return (
         <div className="container mx-auto p-5 space-y-5">
             {/* Header Section */}
@@ -68,44 +66,86 @@ const Page = () => {
             </FadeIn>
 
             {/* Days Selector */}
-            <FadeIn delay={500}>
-                <div className="flex justify-between bg-gray-900 p-3 rounded-xl shadow-md overflow-auto">
-                    {days.map((day, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setDaySelected(index)}
-                            className={`py-2 px-4 font-semibold transition rounded-lg ${
+
+            <motion.div className="flex justify-between bg-gray-900 p-3 rounded-xl shadow-md overflow-auto">
+                {days.map((day, index) => (
+                    <motion.button
+                        layoutId={day[daySelected] === day ? "selected" : ""}
+                        key={index}
+                        onClick={() => setDaySelected(index)}
+                        className={`relative py-2 px-4 font-semibold transition rounded-lg text-indigo-700 w-full`}
+                    >
+                        <motion.p
+                            className={
                                 index === daySelected
-                                    ? "text-indigo-700 bg-indigo-100 border-b-4 border-indigo-700"
-                                    : "text-gray-300"
-                            }`}
+                                    ? "text-transparent"
+                                    : "text-gray-100"
+                            }
                         >
                             {day}
-                        </button>
-                    ))}
-                </div>
-            </FadeIn>
+                        </motion.p>
+
+                        {days[daySelected] === day ? (
+                            <motion.div
+                                layoutId="fondo"
+                                className="absolute inset-0 bg-gray-100 rounded-lg h-full flex items-center justify-center pointer-events-none "
+                            >
+                                {day}
+                            </motion.div>
+                        ) : null}
+                    </motion.button>
+                ))}
+            </motion.div>
 
             {/* Clase List for the Selected Day */}
-            <FadeIn delay={1000}>
-                <div className="space-y-4  md:w-4/5 mx-auto">
-                    {clases[daySelected]?.length > 0 ? (
-                        clases[daySelected].map(
-                            (clase: Clase, index: number) => (
-                                <Clase key={index} clase={clase} />
+
+            <AnimatePresence mode="wait">
+                {clases[daySelected] && (
+                    <motion.div
+                        key={daySelected}
+                        layoutId={`clases-${daySelected}`}
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -50 }}
+                        transition={{ duration: 0.4 }}
+                        className="space-y-4 md:w-4/5 mx-auto"
+                    >
+                        {clases[daySelected]?.length > 0 ? (
+                            clases[daySelected].map(
+                                (clase: Clase, index: number) => (
+                                    <Clase key={index} clase={clase} />
+                                )
                             )
-                        )
-                    ) : (
-                        <h1 className="text-xl text-white text-center">
-                            Sin clases para el dia {days[daySelected]}
-                        </h1>
-                    )}
-                </div>
-            </FadeIn>
-            <AddClassModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-            />
+                        ) : (
+                            <motion.h1
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="text-xl text-white text-center"
+                            >
+                                Sin clases para el dia {days[daySelected]}
+                            </motion.h1>
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+                {isModalOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                        className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+                    >
+                        <AddClassModal
+                            isOpen={isModalOpen}
+                            onClose={() => setIsModalOpen(false)}
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
@@ -125,22 +165,30 @@ interface ClaseProps {
 
 const Clase: React.FC<ClaseProps> = ({ clase }) => {
     return (
-        <div className="bg-gray-800 rounded-2xl shadow-lg p-5 hover:shadow-xl transition-shadow">
-            <h2 className="font-bold text-xl mb-2 text-indigo-600">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ type: "spring", stiffness: 120, damping: 15 }}
+            className="bg-gray-800 rounded-2xl shadow-lg p-5 hover:shadow-xl transition-shadow"
+        >
+            <motion.h2 className="font-bold text-xl mb-2 text-indigo-600">
                 {clase.materia}
-            </h2>
-            <p className="text-gray-400 mb-1">
+            </motion.h2>
+            <motion.p className="text-gray-400 mb-1">
                 <span className="font-semibold">Profesor:</span> {clase.docente}
-            </p>
-            <p className="text-gray-400 mb-4">
+            </motion.p>
+            <motion.p className="text-gray-400 mb-4">
                 <span className="font-semibold">Ubicación:</span> {clase.lugar}
-            </p>
-            <div className="flex justify-between items-center text-gray-400">
-                <p className="font-semibold">{clase.horaInicio}</p>
-                <span className="text-gray-400">—</span>
-                <p className="font-semibold">{clase.horaFin}</p>
-            </div>
-        </div>
+            </motion.p>
+            <motion.div className="flex justify-between items-center text-gray-400">
+                <motion.p className="font-semibold">
+                    {clase.horaInicio}
+                </motion.p>
+                <motion.span className="text-gray-400">—</motion.span>
+                <motion.p className="font-semibold">{clase.horaFin}</motion.p>
+            </motion.div>
+        </motion.div>
     );
 };
 

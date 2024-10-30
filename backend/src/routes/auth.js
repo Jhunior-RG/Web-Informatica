@@ -1,48 +1,13 @@
 /* eslint-disable no-undef */
 import { Router } from "express";
-import Usuario from "../models/usuario.js";
-import jwt from 'jsonwebtoken'
 import authToken from "../middlewares/authToken.js";
+import { iniciarSession, registrarUsuario } from "../controllers/authController.js";
 
 const auth = Router()
 
-const JWT_SECRET = process.env.JWT_SECRET
+auth.post('/register', registrarUsuario)
 
-auth.post('/register', async (req, res) => {
-    try {
-        await Usuario.create(req.body)
-        res.status(201).json({ message: 'Usuario creado Correctamente' })
-    } catch (e) {
-        if (e.parent.code === "23505") {
-            res.status(
-                400
-            ).json({ message: 'el correo ya se encuentra registrado' })
-        } else {
-            res.status(400).json({ message: e.message })
-        }
-    }
-})
+auth.post('/login', )
 
-auth.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body
-        console.log(req.body)
-        const usuario = await Usuario.findOne({ where: { email } })
-        if (usuario.password === password) {
-            const token = jwt.sign({ id: usuario.id }, JWT_SECRET, { expiresIn: '1d' });
-            res.status(200).json({ message: "Inicio de sesion exitoso", token })
-            return
-        }   
-        res.status(400).json({ message: 'Invalid email or password' })
-    } catch (e) {
-        res.status(400).json({ message: e.message })
-    }
-})
-
-auth.get('/perfil', authToken, async (req, res) => {
-    const { id } = req.usuario;
-    const usuario = await Usuario.findByPk(id)
-
-    res.json(usuario)
-})
+auth.get('/perfil', authToken, iniciarSession)
 export default auth;

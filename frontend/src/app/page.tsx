@@ -53,7 +53,7 @@ export default function Home() {
           <FadeIn delay={500}>
             {usuario ? (
               <div className="flex flex-col items-center justify-between">
-                <p className="text-white text-xl mb-2">
+                <p className="text-white text-xl mt-10 font-semibold">
                   Bienvenido {usuario.nombre}
                 </p>
                 <LogoutButton

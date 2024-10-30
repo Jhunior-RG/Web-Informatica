@@ -3,6 +3,9 @@ import type { StaticImageData } from "next/image";
 import Link from "next/link";
 import imageDefault from "../public/image_default.png";
 import Image from "next/image";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+
 interface MaterialProps {
     title: string;
     description?: string;
@@ -18,8 +21,29 @@ const MaterialTarget: React.FC<MaterialProps> = ({
     link,
     isPopular,
 }) => {
+    const ref = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["end end", "start start"],
+    });
+
+    // Animaciones basadas en el scroll
+    const scale = useTransform(scrollYProgress, [0,0.05], [0.75,1]);
+    const opacity = useTransform(scrollYProgress, [0, 0.05], [0, 0.75]);
+    const x = useTransform(scrollYProgress, [0,0.05],[-500,0])
+    const rotate = useTransform(
+        scrollYProgress,
+        [0, 0.05,1],
+        [180, 0,0],
+        
+      )
     return (
-        <div className="flex bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 transform">
+        <motion.div
+            ref={ref}
+            style={{ scale,opacity ,x}}
+            className="flex bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
+            
+        >
             {/* Imagen del curso */}
             <div className="relative w-1/3 h-full">
                 <Image
@@ -40,7 +64,11 @@ const MaterialTarget: React.FC<MaterialProps> = ({
                             </span>
                         )}
                     </div>
-                    <p className="text-gray-400 text-sm">{description ? description : `accede a los materiales de ${title}`}</p>
+                    <p className="text-gray-400 text-sm">
+                        {description
+                            ? description
+                            : `Accede a los materiales de ${title}`}
+                    </p>
                 </div>
 
                 {/* Botón de acceso */}
@@ -52,7 +80,8 @@ const MaterialTarget: React.FC<MaterialProps> = ({
                     <ArrowForward fontSize="small" />
                 </Link>
             </div>
-        </div>
+        </motion.div>
     );
 };
-export default MaterialTarget
+
+export default MaterialTarget;

@@ -46,7 +46,11 @@ export const iniciarSession = async (req, res) => {
 
 export const obtenerPerfil = async (req, res) => {
   const { id } = req.usuario;
-  const usuario = await Usuario.findByPk(id)
+  try {
 
-  res.json(usuario)
+    const usuario = await Usuario.findByPk(id)
+    res.json({ data: usuario, message: "perfil obtenido exitosamente" })
+  } catch (e) {
+    res.status(400).json({ message: e.message })
+  }
 }

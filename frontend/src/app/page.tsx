@@ -11,8 +11,14 @@ import TypingEffect from "@/components/TypingEffect";
 import FadeIn from "@/components/FadeIn";
 import { BACKEND_URL } from "@/constant/backend";
 
+export interface Usuario{
+    id: number;
+    nombre: string;
+    email: string;
+}
+
 export default function Home() {
-    const [usuario, setUsuario] = useState(null);
+    const [usuario, setUsuario] = useState<Usuario|null>(null);
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -28,7 +34,8 @@ export default function Home() {
                 });
 
                 if (res.ok) {
-                    const data = await res.json();
+                    const {data} = await res.json();
+                    console.log(data)
                     setUsuario(data);
                 } else {
                     localStorage.removeItem("token");
@@ -81,15 +88,15 @@ export default function Home() {
                 </div>
 
                 {/* Capa de superposición para hacer el texto más legible */}
-                <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+                <div className="absolute inset-0 bg-green-950 bg-opacity-40"></div>
 
                 <div className="text-center relative z-10 px-4">
                     <FadeIn>
                         <TypingEffect
                             text="Ingeneria Informática"
+                            className="text-indigo-600  "
                             speed={100}
                         />
-                        <h1 className="hidden">Ingeniería Informática</h1>
                     </FadeIn>
                     <FadeIn delay={1500}>
                         <p className="text-base sm:text-lg text-white drop-shadow-md">
@@ -105,8 +112,8 @@ export default function Home() {
                 </FadeIn>
             </div>
 
-            <section className="w-full py-12 bg-gray-900">
-                <h3 className="text-2xl font-semibold text-white text-center mb-6 px-4">
+            <section className="w-full py-12 bg-gray-100">
+                <h3 className="text-2xl font-semibold text-black text-center mb-6 px-4">
                     Accede a las siguientes funcionalidades
                 </h3>
 
@@ -135,9 +142,8 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Sección adicional: Características */}
-            <section className="w-full py-16  bg-gray-900">
-                <h3 className="text-2xl font-semibold text-gray-200 text-center mb-8 px-4">
+            <section className="w-full  bg-gray-100">
+                <h3 className="text-2xl font-semibold text-gray-800 text-center mb-8 px-4">
                     ¿Por qué elegirnos?
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
@@ -204,12 +210,12 @@ const Caracteristica: React.FC<CaracteristicaProps> = ({
     icon,
 }) => {
     return (
-        <div className="flex flex-col items-center text-center p-4 rounded-lg bg-gray-800 shadow-md">
+        <div className="flex flex-col items-center text-center p-4 rounded-lg bg-gray-300 shadow-md">
             {icon}
-            <h4 className="text-lg sm:text-xl font-bold text-gray-200 mb-2">
+            <h4 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">
                 {title}
             </h4>
-            <p className="text-sm sm:text-base text-gray-400">{description}</p>
+            <p className="text-sm sm:text-base text-gray-600">{description}</p>
         </div>
     );
 };

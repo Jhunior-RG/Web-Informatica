@@ -41,15 +41,6 @@ export const TargetClass: React.FC<TargetClassProps> = ({
                         {removeGroup && (
                             <button
                                 onClick={() => removeGroup(clase.idGrupo)}
-                                whileHover={{
-                                    backgroundColor: "red",
-                                    color: "white",
-                                }}
-                                initial={{
-                                    rotate: 0,
-                                    color: "red",
-                                }}
-                                transition={{ duration: 0.5 }}
                                 className="rounded-full w-4 h-4 flex items-center justify-center"
                             >
                                 <svg

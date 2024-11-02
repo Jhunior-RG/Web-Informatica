@@ -1,7 +1,6 @@
 "use client";
 
 import AddClassModal from "@/components/AddClassModal";
-import FadeIn from "@/components/FadeIn";
 import TypingEffect from "@/components/TypingEffect";
 import { BACKEND_URL } from "@/constant/backend";
 import { Add } from "@mui/icons-material";
@@ -9,22 +8,22 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { token } from "@/constant/token";
+import TargetClass from "@/components/TargetClass";
+
+const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+const hours = Array(24)
+    .fill("")
+    .map((_, i) => `${i}:00`);
 
 const Page = () => {
-    const [daySelected, setDaySelected] = useState(0);
-    const [clases, setClases] = useState<Clase[][]>([[]]);
+    const [daySelected, setDaySelected] = useState<number | null>(null);
+    const [clases, setClases] = useState<TargetClass[][]>([[]]);
+    const [currentTime, setCurrentTime] = useState(new Date());
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const days = [
-        "Lunes",
-        "Martes",
-        "Miércoles",
-        "Jueves",
-        "Viernes",
-        "Sabado",
-    ];
+
     const router = useRouter();
-    
-    const getHorarios = async () => {
+
+    const fetchHorarios = async () => {
         try {
             const res = await fetch(BACKEND_URL + "/api/horarios", {
                 headers: {
@@ -46,11 +45,36 @@ const Page = () => {
     };
 
     useEffect(() => {
+        const interval = setInterval(() => setCurrentTime(new Date()), 60000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const getTopPixels = (startHour: string) => {
+        const [hour, minute] = startHour.split(":").map(Number);
+        const top = (hour + 1) * 64 + minute;
+        return `${top}px`;
+    };
+    const getHeightPixels = (startTime: string, endTime: string) => {
+        const [startHour, startMinute] = startTime.split(":").map(Number);
+        const [endHour, endMinute] = endTime.split(":").map(Number);
+
+        const height = (endHour - startHour) * 64 + (endMinute - startMinute);
+
+        return `${height}px`;
+    };
+
+    const getTopPixelsCurrentTime = () => {
+        const hours = currentTime.getHours() + 1;
+        const minutes = currentTime.getMinutes();
+        return `${(hours * 60 + minutes) * (64 / 60)}px`; // 64px por hora
+    };
+
+    useEffect(() => {
         if (!token) {
             router.push("/login");
         }
-        getHorarios();
-    }, []);
+        fetchHorarios();
+    }, [router]);
 
     const removeGroup = async (idGrupo: string) => {
         try {
@@ -66,9 +90,7 @@ const Page = () => {
             );
 
             if (res.ok) {
-                const { message } = await res.json();
-                console.log(message);
-                getHorarios();
+                fetchHorarios();
             } else {
                 const { error } = await res.json();
                 console.error("Error al eliminar grupo:", error);
@@ -79,92 +101,18 @@ const Page = () => {
     };
 
     return (
-        <div className="container mx-auto p-5 space-y-5">
+        <div className=" bg-white mx-auto pt-5 ">
             {/* Header Section */}
-            <FadeIn>
-                <div className="flex justify-between items-center mb-4">
-                    <TypingEffect text="Horario" />
-
-                    <button
-                        onClick={() => setIsModalOpen(true)}
-                        className="bg-indigo-600 text-white flex items-center rounded-full px-5 py-2 space-x-2 hover:bg-indigo-700 transition"
-                    >
-                        <Add />
-                        Agregar
-                    </button>
-                </div>
-            </FadeIn>
-
-            {/* Days Selector */}
-
-            <motion.div className="flex justify-between bg-gray-900 p-3 rounded-xl shadow-md overflow-auto">
-                {days.map((day, index) => (
-                    <motion.button
-                        layoutId={day[daySelected] === day ? "selected" : ""}
-                        key={index}
-                        onClick={() => setDaySelected(index)}
-                        className={`relative py-2 px-4 font-semibold transition rounded-lg text-indigo-700 w-full`}
-                    >
-                        <motion.p
-                            whileHover={{scale:1.2}}
-                            className={
-                                index === daySelected
-                                    ? "text-transparent"
-                                    : "text-gray-100"
-                            }
-                        >
-                            {day}
-                        </motion.p>
-
-                        {days[daySelected] === day ? (
-                            <motion.div
-                                layoutId="fondo"
-                                className="absolute inset-0 bg-gray-100 rounded-full flex items-center justify-center shadow-md border-b-4 border-l-4 border-indigo-700"
-                                transition={{ duration: 0.5 }}
-                            >
-                                {day}
-                            </motion.div>
-                        ) : null}
-                    </motion.button>
-                ))}
-            </motion.div>
-
-            {/* Clase List for the Selected Day */}
-
-            <AnimatePresence mode="wait">
-                {clases[daySelected] && (
-                    <motion.div
-                        key={daySelected}
-                        layoutId={`clases-${daySelected}`}
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.5 }}
-                        transition={{ duration: 0.8, type: "spring" }}
-                        className="space-y-4 md:w-4/5 mx-auto"
-                    >
-                        {clases[daySelected]?.length > 0 ? (
-                            clases[daySelected].map(
-                                (clase: Clase, index: number) => (
-                                    <Clase
-                                        key={index}
-                                        clase={clase}
-                                        removeGroup={removeGroup}
-                                    />
-                                )
-                            )
-                        ) : (
-                            <motion.h1
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                className="text-xl text-white text-center"
-                            >
-                                Sin clases para el dia {days[daySelected]}
-                            </motion.h1>
-                        )}
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            <div className="flex justify-between items-center mb-4">
+                <TypingEffect className="text-indigo-800" text="Horario" />
+                <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="bg-indigo-800 text-white flex items-center rounded-full px-5 py-2 space-x-2 hover:bg-indigo-600 transition"
+                >
+                    <Add />
+                    Agregar
+                </button>
+            </div>
 
             <AnimatePresence>
                 {isModalOpen && (
@@ -177,82 +125,88 @@ const Page = () => {
                         }}
                         exit={{ opacity: 0, scale: 0.5 }}
                         transition={{ duration: 0.1 }}
-                        className="fixed inset-0 flex items-center justify-center "
+                        className="fixed inset-0 z-50 flex items-center justify-center "
                     >
                         <AddClassModal
                             isOpen={isModalOpen}
                             onClose={() => setIsModalOpen(false)}
-                            getHorarios={getHorarios}
+                            fetchHorarios={fetchHorarios}
                         />
                     </motion.div>
                 )}
             </AnimatePresence>
-        </div>
-    );
-};
-export interface Clase {
-    idGrupo: string;
-    grupo: string;
-    materia: string;
-    docente: string;
-    lugar: string;
-    horaInicio: string;
-    horaFin: string;
-    length: number;
-}
 
-interface ClaseProps {
-    clase: Clase;
-    removeGroup?: (idGrupo: string) => void;
-}
+            <div className={`relative grid grid-cols-7  h-full py-4`}>
+                {/* Columna de horas */}
+                <div className="relative flex flex-col h-full">
+                    <div className="h-16 border-b border-gray-300 flex items-start text-xs text-gray-500"></div>
+                    {hours.map((hour, index) => (
+                        <div
+                            key={index}
+                            className="h-16 border-b border-gray-300 flex items-start justify-center  text-indigo-800 font-semibold"
+                        >
+                            {hour}
+                        </div>
+                    ))}
+                </div>
 
-const Clase: React.FC<ClaseProps> = ({ clase, removeGroup }) => {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ type: "spring", stiffness: 120, damping: 15 }}
-            className="bg-gray-800 rounded-2xl shadow-lg p-5 hover:shadow-xl transition-shadow"
-        >
-            <motion.div className="font-bold text-xl mb-2 text-indigo-600 grid grid-cols-4 w-full">
-                <p className="text-indigo-500 px-5 col-span-2">
-                    {clase.materia}
-                </p>
-                <p>{clase.grupo}</p>
-                {removeGroup && (
-                    <motion.button
-                        onClick={() => removeGroup(clase.idGrupo)}
-                        whileHover={{
-                            backgroundColor: "red",
-                            color: "white",
-                        }}
-                        initial={{
-                            rotate: 0,
-                            backgroundColor: "white",
-                            color: "black",
-                        }}
-                        transition={{ duration: 0.5}}
-                        className="rounded-full  w-8 h-8 justify-self-end"
+                {/* Línea de tiempo de la hora actual */}
+                <div
+                    className="absolute w-full h-1 bg-sky-500 mt-4"
+                    style={{ top: getTopPixelsCurrentTime(), right: 0 }}
+                />
+
+                {/* Columna de cada día */}
+
+                {days.map((day, dayIndex) => (
+                    <div
+                        key={dayIndex}
+                        className={`relative h-full border-l border-gray-300 ${
+                            daySelected !== null
+                                ? daySelected === dayIndex
+                                    ? "col-span-6"
+                                    : "hidden"
+                                : ""
+                        }`}
                     >
-                        x
-                    </motion.button>
-                )}
-            </motion.div>
-            <motion.p className="text-gray-400 mb-1">
-                <span className="font-semibold">Profesor:</span> {clase.docente}
-            </motion.p>
-            <motion.p className="text-gray-400 mb-4">
-                <span className="font-semibold">Ubicación:</span> {clase.lugar}
-            </motion.p>
-            <motion.div className="flex justify-between items-center text-gray-400">
-                <motion.p className="font-semibold">
-                    {clase.horaInicio}
-                </motion.p>
-                <motion.span className="text-gray-400">—</motion.span>
-                <motion.p className="font-semibold">{clase.horaFin}</motion.p>
-            </motion.div>
-        </motion.div>
+                        <button
+                            className="sticky top-2 z-20 rounded-full  text-indigo-800 border-b-4 border-l-4 border-indigo-800  p-2 border-right-0 left-0 text-center w-full font-bold bg-white"
+                            onClick={() => {
+                                setDaySelected(
+                                    daySelected === null ? dayIndex : null
+                                );
+                            }}
+                        >
+                            {daySelected === null
+                                ? day.slice(0, 2).toUpperCase()
+                                : day.toUpperCase()}
+                        </button>
+
+                        {/* Clases para cada día */}
+                        {clases[dayIndex]?.map((clase, index) => (
+                            <motion.div
+                                key={index}
+                                className="absolute left-0 right-0 border border-b-4 border-t-4 text-indigo-800 rounded-xl shadow-lg border-gray-600 flex items-center justify-center font-bold text-center text-xs"
+                                style={{
+                                    top: getTopPixels(clase.horaInicio),
+                                    height: getHeightPixels(
+                                        clase.horaInicio,
+                                        clase.horaFin
+                                    ),
+                                }}
+                            >
+                                <TargetClass
+                                    key={index}
+                                    minimal={daySelected === null}
+                                    clase={clase}
+                                    removeGroup={removeGroup}
+                                />
+                            </motion.div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        </div>
     );
 };
 

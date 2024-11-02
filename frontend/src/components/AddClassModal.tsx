@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 interface AddClassModalProps {
     isOpen: boolean;
     onClose: () => void;
-    getHorarios: () => void;
+    fetchHorarios: () => void;
 }
 
 interface Semestre {
@@ -33,7 +33,11 @@ interface Clase {
     horaFin: number;
 }
 
-const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose,getHorarios }) => {
+const AddClassModal: React.FC<AddClassModalProps> = ({
+    isOpen,
+    onClose,
+    fetchHorarios,
+}) => {
     const [isVisible, setIsVisible] = useState(false);
     const [semestres, setSemestres] = useState<Semestre[]>([]);
     const [materias, setMaterias] = useState<Materia[]>([]);
@@ -132,7 +136,7 @@ const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose,getHorari
         const { message } = await res.json();
         if (res.ok) {
             setClases([]);
-            setGrupoSeleccionado('')
+            setGrupoSeleccionado("");
             onClose();
             router.refresh();
         } else {
@@ -143,14 +147,14 @@ const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose,getHorari
             }
             console.error("message: ", message);
         }
-        getHorarios();
+        fetchHorarios();
     };
 
     if (!isOpen) return null;
 
     return (
         <div
-            className="fixed inset-0 z-50 overflow-y-auto min-h-screen"
+            className="fixed inset-0 z-100 overflow-y-auto min-h-screen"
             style={{
                 opacity: isVisible ? 1 : 0,
                 transition: "opacity 300ms ease-in-out",
@@ -161,7 +165,7 @@ const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose,getHorari
         >
             <div className="min-h-screen px-4 text-center flex items-center justify-center">
                 <div
-                    className="inline-block w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-800 shadow-xl rounded-lg"
+                    className="inline-block w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg"
                     style={{
                         transform: isVisible
                             ? "translateY(0)"
@@ -172,17 +176,17 @@ const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose,getHorari
                     }}
                 >
                     <div className="p-6 sm:p-8">
-                        <h2 className="text-2xl font-bold mb-4 text-indigo-400">
+                        <h2 className="text-2xl font-bold mb-4 text-indigo-800">
                             Agregar Nueva Clase
                         </h2>
                         <form className="space-y-4" onSubmit={handleSubmit}>
                             <div>
-                                <label className="block text-gray-300">
+                                <label className="block text-gray-800">
                                     Semestre
                                 </label>
                                 <select
                                     name="semestres"
-                                    className="w-full px-3 py-2 border border-gray-700 bg-gray-700 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-gray-300 transition-all"
+                                    className="w-full px-3 py-2 border border-gray-700 bg-gray-100 rounded-lg focus:border-indigo-500 focus:ring-indigo-200 text-gray-800 transition-all"
                                     required
                                     onChange={handleSemestreChange}
                                 >
@@ -200,12 +204,12 @@ const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose,getHorari
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-gray-300">
+                                <label className="block text-gray-800">
                                     Materias
                                 </label>
                                 <select
                                     name="materias"
-                                    className="w-full px-3 py-2 border border-gray-700 bg-gray-700 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-gray-300 transition-all"
+                                    className="w-full px-3 py-2 border border-gray-700 bg-gray-100 rounded-lg focus:border-indigo-500 focus:ring-indigo-200 text-gray-800 transition-all"
                                     required
                                     onChange={handleMateriaChange}
                                 >
@@ -223,12 +227,12 @@ const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose,getHorari
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-gray-300">
+                                <label className="block text-gray-800">
                                     Grupo
                                 </label>
                                 <select
                                     name="grupo"
-                                    className="w-full px-3 py-2 border border-gray-700 bg-gray-700 rounded-lg focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-gray-300 transition-all"
+                                    className="w-full px-3 py-2 border border-gray-700 bg-gray-100 rounded-lg focus:border-indigo-500 focus:ring-indigo-200 text-gray-800 transition-all"
                                     required
                                     onChange={handleGrupoChange}
                                 >
@@ -245,22 +249,22 @@ const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose,getHorari
 
                             {clases.length > 0 && (
                                 <div className="mt-4">
-                                    <h3 className="text-lg font-bold text-indigo-400">
+                                    <h3 className="text-lg font-bold text-indigo-700">
                                         Clases
                                     </h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                                         {clases.map((clase, index) => (
                                             <div
                                                 key={index}
-                                                className="bg-gray-700 p-4 rounded-lg shadow-lg"
+                                                className="bg-gray-200 p-4 rounded-lg shadow-lg justify-items-center"
                                             >
-                                                <h4 className="text-white font-semibold">
+                                                <h4 className="text-indigo-900 font-bold">
                                                     {clase.dia}
                                                 </h4>
-                                                <p className="text-gray-300">
+                                                <p className="text-gray-800">
                                                     {clase.lugar}
                                                 </p>
-                                                <p className="text-indigo-300">
+                                                <p className="text-sky-700">
                                                     {clase.horaInicio} -{" "}
                                                     {clase.horaFin}
                                                 </p>
@@ -272,14 +276,14 @@ const AddClassModal: React.FC<AddClassModalProps> = ({ isOpen, onClose,getHorari
                             <div className="flex justify-end space-x-2">
                                 <button
                                     type="button"
-                                    className="bg-gray-500 text-white px-4 py-2 rounded-full hover:bg-gray-600 transition"
+                                    className="bg-gray-500 text-white px-4 py-2 rounded-full hover:bg-gray-400 transition"
                                     onClick={onClose}
                                 >
                                     Cancelar
                                 </button>
                                 <button
                                     type="submit"
-                                    className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition"
+                                    className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-800 transition"
                                 >
                                     Guardar
                                 </button>

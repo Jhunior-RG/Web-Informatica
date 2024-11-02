@@ -28,19 +28,25 @@ export const registrarUsuario = async (req, res) => {
   }
 };
 
-export const iniciarSession= async (req, res) => {
+export const iniciarSession = async (req, res) => {
   try {
-      const { email, password } = req.body
-      console.log(req.body)
-      const usuario = await Usuario.findOne({ where: { email } })
-      if (usuario.password === password) {
-          const token = jwt.sign({ id: usuario.id }, JWT_SECRET, { expiresIn: '1d' });
-          res.status(200).json({ message: "Inicio de sesion exitoso", token })
-          return
-      }
-      res.status(400).json({ message: 'Invalid email or password' })
+    const { email, password } = req.body
+    console.log(email, password);
+
+    const usuario = await Usuario.findOne({ where: { email } })
+    if (!usuario || usuario.password !== password) {
+      res.status(400).json({ message: 'correo o contraseña invalido' })
+    }
+    const token = jwt.sign({ id: usuario.id }, JWT_SECRET, { expiresIn: '1d' });
+    res.json({ message: "Inicio de sesion exitoso", token })
   } catch (e) {
-      res.status(400).json({ message: e.message })
+    res.status(400).json({ message: e.message })
   }
 }
 
+export const obtenerPerfil = async (req, res) => {
+  const { id } = req.usuario;
+  const usuario = await Usuario.findByPk(id)
+
+  res.json(usuario)
+}

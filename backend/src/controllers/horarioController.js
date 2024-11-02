@@ -93,3 +93,21 @@ export const obtenerGrupos =  async (req, res) => {
     }
 }
 
+export const agregarGrupo = async (req, res) => {
+
+    const { id } = req.usuario;
+    const { idGrupo } = req.body
+
+    try {
+        const grupo = await Grupo.findByPk(idGrupo);
+        const usuario = await Usuario.findByPk(id);
+
+        if (!await usuario.hasGrupo(grupo)) {
+            usuario.addGrupo(grupo)
+        }
+        res.json({ 'message': "se agrego la clase con exito" })
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ message: 'Error agregar la clase' });
+    }
+}

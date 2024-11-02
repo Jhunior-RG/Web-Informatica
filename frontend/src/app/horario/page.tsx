@@ -190,7 +190,7 @@ const Page = () => {
         </div>
     );
 };
-interface Clase {
+export interface Clase {
     idGrupo: string;
     grupo: string;
     materia: string;

@@ -48,6 +48,7 @@ app.use("/api/horarios", horarios);
 app.use("/api/grupos", grupos);
 
 app.use("/api/semestres", semestres);
+
 //app.use('/api/clase',clases)
 
 app.listen(port, () => {

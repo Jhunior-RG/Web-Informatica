@@ -12,17 +12,13 @@ const Material = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    id_materia: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: "Materia",
-        key: "id",
-      },
-      allowNull: false,
-    },
+    descripcion: {
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   },
   {
-    tableName: "Materiales",
+    tableName: "Materiales", timestamps: false
   }
 );
 

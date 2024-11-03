@@ -9,6 +9,7 @@ const Semestre = db.define("Semestre", {
   nombre: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true
   }
 
 }, {

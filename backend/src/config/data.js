@@ -568,30 +568,199 @@ const clases = [
   {
     dia: "Jueves",
     lugar: "691A",
-    horaInicio: "11:15",
+    horaInicio: "11:15:00",
     horaFin: "12:45:00",
     idGrupo: 18,
-    // Docente: ROJAS ZURITA RAMIRO
+    // Docente: SALAZAR SERRUDO CARLA
   },
   {
     dia: "Viernes",
-    lugar: "691",
-    horaInicio: "08:15:00",
-    horaFin: "09:45:00",
+    lugar: "691E",
+    horaInicio: "11:15:00",
+    horaFin: "12:45:00",
     idGrupo: 18,
-    // Docente: ROJAS ZURITA RAMIRO
+    // Docente: SALAZAR SERRUDO CARLA
   },
   {
     dia: "Viernes",
     lugar: "623",
     horaInicio: "17:15:00",
-    horaFin: "18:15:00",
+    horaFin: "18:45:00",
     idGrupo: 18,
-    // Docente: ROJAS ZURITA RAMIRO
+    // Docente: ANTEZANA SERRANO DILAN ALEJANDRO
+  },
+  {
+    dia: "Martes",
+    lugar: "693D",
+    horaInicio: "09:45:00",
+    horaFin: "11:15:00",
+    idGrupo: 19,
+    // Docente: COSTAS JAUREGUI VLADIMIR ABEL
+  },
+  {
+    dia: "Jueves",
+    lugar: "691A",
+    horaInicio: "09:45:00",
+    horaFin: "11:15:00",
+    idGrupo: 19,
+    // Docente: COSTAS JAUREGUI VLADIMIR ABEL
+  },
+  {
+    dia: "Jueves",
+    lugar: "691B",
+    horaInicio: "14:15:00",
+    horaFin: "15:45:00",
+    idGrupo: 19,
+    // Docente: AUXILIAR POR DESIGNAR
+  },
+  {
+    dia: "Martes",
+    lugar: "617",
+    horaInicio: "17:15:00",
+    horaFin: "18:45:00",
+    idGrupo: 20,
+    // Docente: BLANCO COCA LETICIA
+  },
+  {
+    dia: "Miércoles",
+    lugar: "691B",
+    horaInicio: "17:15:00",
+    horaFin: "18:45:00",
+    idGrupo: 20,
+    // Docente: VELIZ ESCOBAR JOSUE DEMETRIO
+  },
+  {
+    dia: "Jueves",
+    lugar: "624",
+    horaInicio: "15:45:00",
+    horaFin: "17:15:00",
+    idGrupo: 20,
+    // Docente: BLANCO COCA LETICIA
+  },
+  {
+    dia: "Lunes",
+    lugar: "607",
+    horaInicio: "12:45:00",
+    horaFin: "14:15:00",
+    idGrupo: 21,
+    // Docente: USTARIZ VARGAS HERNAN
+  },
+  {
+    dia: "Miércoles",
+    lugar: "612",
+    horaInicio: "12:45:00",
+    horaFin: "14:15:00",
+    idGrupo: 21,
+    // Docente: USTARIZ VARGAS HERNAN
+  },
+  {
+    dia: "Viernes",
+    lugar: "624",
+    horaInicio: "12:45:00",
+    horaFin: "14:15:00",
+    idGrupo: 21,
+    // Docente: CACERES MEDRANO ALAN JESUS
+  },
+  {
+    dia: "Martes",
+    lugar: "623",
+    horaInicio: "15:45:00",
+    horaFin: "17:15:00",
+    idGrupo: 22,
+    // Docente: VILLARROEL TAPIA HENRY FRANK
+  },
+  {
+    dia: "Miércoles",
+    lugar: "693C",
+    horaInicio: "15:45:00",
+    horaFin: "17:15:00",
+    idGrupo: 22,
+    // Docente: VILLARROEL TAPIA HENRY FRANK
+  },
+  {
+    dia: "Viernes",
+    lugar: "691E",
+    horaInicio: "17:15:00",
+    horaFin: "18:45:00",
+    idGrupo: 22,
+    // Docente: SALAZAR CHOQUE JORGE
+  },
+  {
+    dia: "Miércoles",
+    lugar: "690B",
+    horaInicio: "09:45:00",
+    horaFin: "11:15:00",
+    idGrupo: 23,
+    // Docente: MONTANO QUIROGA VICTOR HUGO
+  },
+  {
+    dia: "Jueves",
+    lugar: "623",
+    horaInicio: "09:45:00",
+    horaFin: "11:15:00",
+    idGrupo: 23,
+    // Docente: MONTANO QUIROGA VICTOR HUGO
+  },
+  {
+    dia: "Sábado",
+    lugar: "691C",
+    horaInicio: "09:45:00",
+    horaFin: "11:15:00",
+    idGrupo: 23,
+    // Docente: ANTEZANA SERRANO DILAN ALEJANDRO
+  },
+  {
+    dia: "Miércoles",
+    lugar: "692D",
+    horaInicio: "17:15:00",
+    horaFin: "18:45:00",
+    idGrupo: 24,
+    // Docente: SALAZAR SERRUDO CARLA
+  },
+  {
+    dia: "Jueves",
+    lugar: "691E",
+    horaInicio: "17:15:00",
+    horaFin: "18:45:00",
+    idGrupo: 24,
+    // Docente: SALAZAR SERRUDO CARLA
+  },
+  {
+    dia: "Sábado",
+    lugar: "661",
+    horaInicio: "08:15:00",
+    horaFin: "09:45:00",
+    idGrupo: 24,
+    // Docente: ANTEZANA SERRANO DILAN ALEJANDRO
+  },
+  {
+    dia: "Martes",
+    lugar: "690C",
+    horaInicio: "12:45:00",
+    horaFin: "14:15:00",
+    idGrupo: 25,
+    // Docente: ANTEZANA SERRANO DILAN ALEJANDRO
+  },
+  {
+    dia: "Miércoles",
+    lugar: "692E",
+    horaInicio: "15:45:00",
+    horaFin: "17:15:00",
+    idGrupo: 25,
+    // Docente: . POR DESIGNAR
+  },
+  {
+    dia: "Jueves",
+    lugar: "693B",
+    horaInicio: "17:15:00",
+    horaFin: "18:45:00",
+    idGrupo: 25,
+    // Docente: . POR DESIGNAR
   },
 ];
 
 export async function seed() {
+  
   await Semestre.sync({ force: true });
   await Materia.sync({ force: true });
   await Grupo.sync({ force: true });

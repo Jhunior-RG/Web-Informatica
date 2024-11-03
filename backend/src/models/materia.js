@@ -4,7 +4,8 @@ import db from '../config/db.js';
 const Materia = db.define('Materia', {
     nombre: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     urlImagen: {
         type: DataTypes.STRING,

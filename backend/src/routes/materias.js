@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import Materia from '../models/materia.js'
-import upload from '../middlewares/multer.js'
+import upload from '../middlewares/upload.js'
 import Semestre from '../models/semestre.js'
 import Grupo from '../models/grupo.js'
 import Usuario from '../models/usuario.js'

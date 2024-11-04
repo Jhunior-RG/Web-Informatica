@@ -9,16 +9,19 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { token } from "@/constant/token";
 import TargetClass from "@/components/TargetClass";
+import { getTailwindColor } from "@/constant/colorsTailwind";
 
-const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-const hours = Array(24)
+const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+const horas = Array(24)
     .fill("")
     .map((_, i) => `${i}:00`);
 
+
+
 const Page = () => {
-    const [daySelected, setDaySelected] = useState<number | null>(null);
+    const [diaSeleccionado, setDiaSeleccionado] = useState<number | null>(null);
     const [clases, setClases] = useState<TargetClass[][]>([[]]);
-    const [currentTime, setCurrentTime] = useState(new Date());
+    const [horaActual, setHoraActual] = useState(new Date());
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const router = useRouter();
@@ -33,7 +36,7 @@ const Page = () => {
             });
             if (res.ok) {
                 const { data } = await res.json();
-                const horario = days.map((day) =>
+                const horario = dias.map((day) =>
                     data[day] === undefined ? [] : data[day]
                 );
 
@@ -45,18 +48,35 @@ const Page = () => {
     };
 
     useEffect(() => {
-        const interval = setInterval(() => setCurrentTime(new Date()), 60000);
+        const interval = setInterval(() => setHoraActual(new Date()), 60000);
         return () => clearInterval(interval);
     }, []);
 
+    const getClassBorderColor = (horaInicio:string, horaFin:string) => {
+        const inicio = new Date();
+        const fin = new Date();
+        const [startHour, startMinute] = horaInicio.split(":").map(Number);
+        const [endHour, endMinute] = horaFin.split(":").map(Number);
+    
+        inicio.setHours(startHour, startMinute, 0);
+        fin.setHours(endHour, endMinute, 0);
+
+        if (horaActual >= inicio && horaActual < fin) {
+            return "border-b-green-500"; 
+        } else if (horaActual < inicio) {
+            return "border-b-yellow-500"; 
+        } else {
+            return "border-b-red-500"; 
+        }
+    };
     const getTopPixels = (startHour: string) => {
         const [hour, minute] = startHour.split(":").map(Number);
         const top = (hour + 1) * 64 + minute;
         return `${top}px`;
     };
-    const getHeightPixels = (startTime: string, endTime: string) => {
-        const [startHour, startMinute] = startTime.split(":").map(Number);
-        const [endHour, endMinute] = endTime.split(":").map(Number);
+    const getHeightPixels = (horaInicio: string, horaFin: string) => {
+        const [startHour, startMinute] = horaInicio.split(":").map(Number);
+        const [endHour, endMinute] = horaFin.split(":").map(Number);
 
         const height = (endHour - startHour) * 64 + (endMinute - startMinute);
 
@@ -64,9 +84,9 @@ const Page = () => {
     };
 
     const getTopPixelsCurrentTime = () => {
-        const hours = currentTime.getHours() + 1;
-        const minutes = currentTime.getMinutes();
-        return `${(hours * 60 + minutes) * (64 / 60)}px`; // 64px por hora
+        const horas = horaActual.getHours() + 1;
+        const minutes = horaActual.getMinutes();
+        return `${horas * 60 + minutes}px`;
     };
 
     useEffect(() => {
@@ -101,13 +121,12 @@ const Page = () => {
     };
 
     return (
-        <div className=" bg-white mx-auto pt-5 ">
-            {/* Header Section */}
+        <div className=" bg-gray-800 mx-auto pt-5 ">
             <div className="flex justify-between items-center mb-4">
-                <TypingEffect className="text-indigo-800" text="Horario" />
+                <TypingEffect className="text-indigo-200" text="Horario" />
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="bg-indigo-800 text-white flex items-center rounded-full px-5 py-2 space-x-2 hover:bg-indigo-600 transition"
+                    className="bg-indigo-600 text-white flex items-center rounded-full px-5 py-2 space-x-2 hover:bg-indigo-400 transition"
                 >
                     <Add />
                     Agregar
@@ -137,47 +156,43 @@ const Page = () => {
             </AnimatePresence>
 
             <div className={`relative grid grid-cols-7  h-full py-4`}>
-                {/* Columna de horas */}
                 <div className="relative flex flex-col h-full">
-                    <div className="h-16 border-b border-gray-300 flex items-start text-xs text-gray-500"></div>
-                    {hours.map((hour, index) => (
+                    <div className="h-16 border-b border-gray-300 flex items-inicio text-xs text-gray-500"></div>
+                    {horas.map((hour, index) => (
                         <div
                             key={index}
-                            className="h-16 border-b border-gray-300 flex items-start justify-center  text-indigo-800 font-semibold"
+                            className="h-16 border-b border-gray-300 flex items-inicio justify-center text-gray-100 font-semibold"
                         >
                             {hour}
                         </div>
                     ))}
                 </div>
 
-                {/* Línea de tiempo de la hora actual */}
                 <div
                     className="absolute w-full h-1 bg-sky-500 mt-4"
-                    style={{ top: getTopPixelsCurrentTime(), right: 0 }}
+                    style={{ top: getTopPixelsCurrentTime() }}
                 />
 
-                {/* Columna de cada día */}
-
-                {days.map((day, dayIndex) => (
+                {dias.map((day, dayIndex) => (
                     <div
                         key={dayIndex}
-                        className={`relative h-full border-l border-gray-300 ${
-                            daySelected !== null
-                                ? daySelected === dayIndex
+                        className={`relative h-full border-l border-gray-500 ${
+                            diaSeleccionado !== null
+                                ? diaSeleccionado === dayIndex
                                     ? "col-span-6"
                                     : "hidden"
                                 : ""
                         }`}
                     >
                         <button
-                            className="sticky top-2 z-20 rounded-full  text-indigo-800 border-b-4 border-l-4 border-indigo-800  p-2 border-right-0 left-0 text-center w-full font-bold bg-white"
+                            className="sticky top-2 z-20 rounded-lg text-indigo-800 border-b-4 border-l-4 border-indigo-600  p-2 border-right-0 left-0 text-center w-full font-bold bg-gray-100"
                             onClick={() => {
-                                setDaySelected(
-                                    daySelected === null ? dayIndex : null
+                                setDiaSeleccionado(
+                                    diaSeleccionado === null ? dayIndex : null
                                 );
                             }}
                         >
-                            {daySelected === null
+                            {diaSeleccionado === null
                                 ? day.slice(0, 2).toUpperCase()
                                 : day.toUpperCase()}
                         </button>
@@ -186,7 +201,9 @@ const Page = () => {
                         {clases[dayIndex]?.map((clase, index) => (
                             <motion.div
                                 key={index}
-                                className="absolute left-0 right-0 border border-b-4 border-t-4 text-indigo-800 rounded-xl shadow-lg border-gray-600 flex items-center justify-center font-bold text-center text-xs"
+                                className={`absolute left-0 right-0  border-b-4 border-t-4 text-gray-50 rounded-xl shadow-md border-gray-200  flex items-center justify-center font-bold text-center text-xs ${getTailwindColor(
+                                    clase.idGrupo
+                                )} ${getClassBorderColor(clase.horaInicio,clase.horaFin)}`}
                                 style={{
                                     top: getTopPixels(clase.horaInicio),
                                     height: getHeightPixels(
@@ -197,7 +214,7 @@ const Page = () => {
                             >
                                 <TargetClass
                                     key={index}
-                                    minimal={daySelected === null}
+                                    minimal={diaSeleccionado === null}
                                     clase={clase}
                                     removeGroup={removeGroup}
                                 />

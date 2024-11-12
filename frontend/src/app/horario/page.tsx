@@ -3,26 +3,37 @@
 import AddClassModal from "@/components/AddClassModal";
 import TypingEffect from "@/components/TypingEffect";
 import { BACKEND_URL } from "@/constant/backend";
-import { Add } from "@mui/icons-material";
+import { Add, Settings } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { token } from "@/constant/token";
 import TargetClass from "@/components/TargetClass";
-import { getTailwindColor } from "@/constant/colorsTailwind";
+import { colorPalettes } from "@/constant/colorsTailwind";
+import SelectDaltonism from "@/components/SelectDaltonism";
 
+export type daltonismOptions =
+    | "default"
+    | "protanopia"
+    | "deuteranopia"
+    | "tritanopia";
 const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 const horas = Array(24)
     .fill("")
     .map((_, i) => `${i}:00`);
 
-
-
 const Page = () => {
+    const [colorPalette, setColorPalette] =
+        useState<daltonismOptions>("default");
     const [diaSeleccionado, setDiaSeleccionado] = useState<number | null>(null);
     const [clases, setClases] = useState<TargetClass[][]>([[]]);
     const [horaActual, setHoraActual] = useState(new Date());
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+
+    const toggleSettingsMenu = () => {
+        setShowSettingsMenu(!showSettingsMenu);
+    };
 
     const router = useRouter();
 
@@ -47,26 +58,29 @@ const Page = () => {
         }
     };
 
+    const getTailwindColor = (index: number) => {
+        const selectedPalette = colorPalettes[colorPalette];
+        return selectedPalette[index % selectedPalette.length];
+    };
+
     useEffect(() => {
         const interval = setInterval(() => setHoraActual(new Date()), 60000);
         return () => clearInterval(interval);
     }, []);
 
-    const getClassBorderColor = (horaInicio:string, horaFin:string) => {
+    const getClassBorderColor = (horaInicio: string, horaFin: string) => {
         const inicio = new Date();
         const fin = new Date();
         const [startHour, startMinute] = horaInicio.split(":").map(Number);
         const [endHour, endMinute] = horaFin.split(":").map(Number);
-    
+
         inicio.setHours(startHour, startMinute, 0);
         fin.setHours(endHour, endMinute, 0);
 
         if (horaActual >= inicio && horaActual < fin) {
-            return "border-b-green-500"; 
-        } else if (horaActual < inicio) {
-            return "border-b-yellow-500"; 
+            return "border-gray-500";
         } else {
-            return "border-b-red-500"; 
+            return "border-white";
         }
     };
     const getTopPixels = (startHour: string) => {
@@ -86,7 +100,7 @@ const Page = () => {
     const getTopPixelsCurrentTime = () => {
         const horas = horaActual.getHours() + 1;
         const minutes = horaActual.getMinutes();
-        return `${horas * 60 + minutes}px`;
+        return `${horas * 64 + minutes}px`;
     };
 
     useEffect(() => {
@@ -96,7 +110,7 @@ const Page = () => {
         fetchHorarios();
     }, [router]);
 
-    const removeGroup = async (idGrupo: string) => {
+    const removeGroup = async (idGrupo: number) => {
         try {
             const res = await fetch(
                 BACKEND_URL + "/api/horarios/grupos/" + idGrupo,
@@ -124,12 +138,36 @@ const Page = () => {
         <div className=" bg-gray-800 mx-auto pt-5 ">
             <div className="flex justify-between items-center mb-4">
                 <TypingEffect className="text-indigo-200" text="Horario" />
+
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="bg-indigo-600 text-white flex items-center rounded-full px-5 py-2 space-x-2 hover:bg-indigo-400 transition"
+                    className="bg-indigo-600 text-white flex items-center rounded-full px-3 py-2 space-x-2 hover:bg-indigo-400 transition"
                 >
                     <Add />
                     Agregar
+                </button>
+                
+                <AnimatePresence>
+                    {showSettingsMenu && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className="absolute top-20  rounded-lg shadow-lg z-30 w-full justify-items-center"
+                        >
+                            <div className="bg-gray-700 p-4  w-4/5 rounded-md max-w-96">
+
+                            <SelectDaltonism setColorPalette={setColorPalette} />
+                            </div>
+
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+                <button
+                    onClick={toggleSettingsMenu}
+                    className="p-2 rounded-full bg-gray-700 text-white hover:bg-gray-600 transition"
+                >
+                    <Settings fontSize="medium" />
                 </button>
             </div>
 
@@ -169,7 +207,7 @@ const Page = () => {
                 </div>
 
                 <div
-                    className="absolute w-full h-1 bg-sky-500 mt-4"
+                    className={`absolute w-full h-1 ${getTailwindColor(0)} mt-4`}
                     style={{ top: getTopPixelsCurrentTime() }}
                 />
 
@@ -203,7 +241,11 @@ const Page = () => {
                                 key={index}
                                 className={`absolute left-0 right-0  border-b-4 border-t-4 text-gray-50 rounded-xl shadow-md border-gray-200  flex items-center justify-center font-bold text-center text-xs ${getTailwindColor(
                                     clase.idGrupo
-                                )} ${getClassBorderColor(clase.horaInicio,clase.horaFin)}`}
+                                )} 
+                                ${getClassBorderColor(
+                                    clase.horaInicio,
+                                    clase.horaFin
+                                )}`}
                                 style={{
                                     top: getTopPixels(clase.horaInicio),
                                     height: getHeightPixels(

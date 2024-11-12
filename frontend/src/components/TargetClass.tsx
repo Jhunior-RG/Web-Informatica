@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 export interface TargetClass {
-    idGrupo: string;
+    idGrupo: number;
     grupo: string;
     materia: string;
     docente: string;
@@ -12,7 +12,7 @@ export interface TargetClass {
 
 interface TargetClassProps {
     clase: TargetClass;
-    removeGroup?: (idGrupo: string) => void;
+    removeGroup?: (idGrupo: number) => void;
     minimal?: boolean;
 }
 
@@ -41,7 +41,7 @@ export const TargetClass: React.FC<TargetClassProps> = ({
                         {removeGroup && (
                             <button
                                 onClick={() => removeGroup(clase.idGrupo)}
-                                className="rounded-full w-4 h-4 flex items-center justify-center text-red-500 font-bold"
+                                className="rounded-full w-4 h-4 flex items-center justify-center text-black font-bold"
                             >
                                 <svg
                                     className="h-6 w-6"

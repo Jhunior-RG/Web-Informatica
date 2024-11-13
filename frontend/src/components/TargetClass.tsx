@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 export interface TargetClass {
-    idGrupo: string;
+    idGrupo: number;
     grupo: string;
     materia: string;
     docente: string;
@@ -12,7 +12,7 @@ export interface TargetClass {
 
 interface TargetClassProps {
     clase: TargetClass;
-    removeGroup?: (idGrupo: string) => void;
+    removeGroup?: (idGrupo: number) => void;
     minimal?: boolean;
 }
 
@@ -27,13 +27,13 @@ export const TargetClass: React.FC<TargetClassProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ type: "spring", stiffness: 120, damping: 15 }}
-            className="w-full h-full justify-items-center shadow-lg hover:shadow-xl transition-shadow text-gray-700 text-sm flex flex-col justify-center items-center font-medium"
+            className="w-full h-full justify-items-center shadow-lg hover:shadow-xl transition-shadow text-sm flex flex-col justify-center items-center font-medium"
         >
             {minimal ? (
-                <p className="text-xs text-indigo-700 font-bold">{clase.materia}</p>
+                <p className="text-xs font-bold">{clase.materia}</p>
             ) : (
                 <>
-                    <div className=" flex justify-between items-center w-full text-indigo-700 font-bold">
+                    <div className=" flex justify-between items-center w-full font-bold">
                         <div className="flex justify-around w-full">
                             <p>{clase.materia}</p>
                             <p>{clase.grupo}</p>
@@ -41,7 +41,7 @@ export const TargetClass: React.FC<TargetClassProps> = ({
                         {removeGroup && (
                             <button
                                 onClick={() => removeGroup(clase.idGrupo)}
-                                className="rounded-full w-4 h-4 flex items-center justify-center"
+                                className="rounded-full w-4 h-4 flex items-center justify-center text-black font-bold"
                             >
                                 <svg
                                     className="h-6 w-6"

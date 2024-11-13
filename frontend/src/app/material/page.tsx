@@ -1,9 +1,6 @@
 "use client";
 import { Search } from "@mui/icons-material";
 
-import introduccionImg from "../../public/introduccion.png";
-import algebraImg from "../../public/algebra.png";
-import calculoImg from "../../public/calculo.png";
 
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "@/constant/backend";
@@ -84,27 +81,7 @@ const Home = () => {
                         link={`/material/materia/${materia.id}`}
                     />
                 ))}
-                <MaterialTarget
-                    title="Introducción a la Programación"
-                    description="Accede al material necesario para aprender a programar desde cero."
-                    srcImage={introduccionImg}
-                    link="/material/introduccion"
-                    isPopular={true}
-                />
-                <MaterialTarget
-                    title="Álgebra I"
-                    description="Encuentra material para resolver ejercicios de álgebra de manera efectiva."
-                    srcImage={algebraImg}
-                    link="/material/algebra"
-                    isPopular={false}
-                />
-                <MaterialTarget
-                    title="Cálculo I"
-                    description="Recursos esenciales para aprender y practicar ejercicios de cálculo."
-                    srcImage={calculoImg}
-                    link="/material/calculo"
-                    isPopular={false}
-                />
+                
             </div>
         </div>
     );

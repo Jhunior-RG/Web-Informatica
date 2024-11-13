@@ -4,9 +4,11 @@ import upload from '../middlewares/upload.js'
 import Semestre from '../models/semestre.js'
 import Grupo from '../models/grupo.js'
 import Usuario from '../models/usuario.js'
-import { crearMaterias, obtenerMaterias } from '../controllers/materiaController.js'
+import { crearMaterias, obtenerMateria, obtenerMaterias } from '../controllers/materiaController.js'
 
 const materias = Router()
+
+materias.get("/:id", obtenerMateria)
 
 materias.get('/', obtenerMaterias)
 

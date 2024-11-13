@@ -1,7 +1,7 @@
 import { Montserrat, Indie_Flower, Satisfy, Silkscreen} from "next/font/google";
 
 
-export const montserrat = Montserrat({subsets: ["latin"]})
+export const montserrat = Montserrat({subsets: ["latin"],variable: "--font-montserrat"})
 
 export const indie_flower = Indie_Flower({subsets: ["latin"], weight:"400"})
 

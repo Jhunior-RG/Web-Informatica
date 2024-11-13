@@ -31,6 +31,11 @@ export const obtenerSeccionesDeMateria = async (req, res) => {
       where: {
         idMateria: id,
       },
+      include: [
+        {
+          model: Material,
+        }
+      ]
     });
 
     res.status(200).json(secciones);
@@ -75,3 +80,17 @@ export const crearMaterial = async (req, res) => {
     res.status(500).send(`Error en el servidor: ${error.message}`);
   }
 };
+
+export const crearLink = async(req, res) => {
+  try {
+    const { url, nombre, descripcion, idSeccion } = req.body;
+    await Material.create({ url, nombre, descripcion, idSeccion });
+
+    res.status(201).json({
+      message: "Material con link Creado exitosamente",
+    });
+  } catch (error) {
+    res.status(500).send(`Error en el servidor: ${error.message}`);
+  }
+
+}

@@ -23,7 +23,9 @@ const TypingEffect = ({ text = "", speed = 100,className= "" }) => {
   }, [index, text, speed]);
 
   return (
-    <div className={`text-4xl sm:text-5xl font-bold  drop-shadow-md mb-4 font-silkscreen ${className}`}>
+    <div
+      className={`${className} font-bold  drop-shadow-md mb-4 font-silkscreen `}
+    >
       {displayedText}
       <span className="animate-pulse">|</span>
     </div>

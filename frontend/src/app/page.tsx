@@ -94,7 +94,7 @@ export default function Home() {
                     <FadeIn>
                         <TypingEffect
                             text="Ingeneria Informática"
-                            className="text-indigo-600  "
+                            className="text-indigo-600 sm:text-5xl  text-4xl"
                             speed={100}
                         />
                     </FadeIn>

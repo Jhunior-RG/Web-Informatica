@@ -20,3 +20,18 @@ export const crearMaterias = async (req, res) => {
         res.status(400).json({ message: error.message })
     }
 }
+
+export const obtenerMateria = async (req, res) => {
+    try {
+        const id = req.params.id
+        const materia = await Materia.findByPk(id)
+        if (materia) {
+          res.json(materia);
+        } else {
+          res.status(404).json({ mensaje: "Libro no encontrado" });
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(500).send("Error al obtener la materia");
+    }
+}

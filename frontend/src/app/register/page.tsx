@@ -7,37 +7,39 @@ import {
 } from "@mui/icons-material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { BACKEND_URL } from "@/constant/backend";
 
 export default function Login() {
     const [nombre, setNombre] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const router = useRouter()
+    const [error, setError] = useState("");
+    const router = useRouter();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = {
             nombre,
             email,
             password,
-        }
-        console.log(data);
+        };
+//        console.log(data);
 
-        const response = await fetch('http://localhost:4000/api/register',{
-            method: 'POST',
+        const response = await fetch(BACKEND_URL + "/api/register", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
-        })
+        });
 
-        if(response.ok){
-            alert("usuario creado correctamente")
-            router.push('/login')
+        if (response.ok) {
+            alert("usuario creado correctamente");
+            router.push("/login");
         } else {
-            console.error('Error registering user', await response.json());
+            const { message } = await response.json();
+            setError(message);
         }
-
     };
 
     return (
@@ -96,7 +98,9 @@ export default function Login() {
                 </button>
             </form>
 
-                <div className="text-gray-500 mt-6">
+             <p className="text-red-600 mt-3">{error}</p>
+
+            <div className="text-gray-500 mt-3">
                 <p>
                     ¿Ya tienes cuenta?{" "}
                     <Link

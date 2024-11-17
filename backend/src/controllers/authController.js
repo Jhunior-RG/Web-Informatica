@@ -6,6 +6,11 @@ const JWT_SECRET = process.env.JWT_SECRET;
 export const registrarUsuario = async (req, res) => {
     try {
         const { email } = req.body;
+        const correosValidos = ['est.umss.edu']
+        const valido = correosValidos.includes(email.split('@')[1]);
+        if (!valido) {
+            return res.status(400).json({ message: "Correo no válido" });
+        }
         const usuario = await Usuario.findOne({
             where: { email },
         });
@@ -50,3 +55,4 @@ export const obtenerPerfil = async (req, res) => {
         res.status(400).json({ message: e.message });
     }
 };
+

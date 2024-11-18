@@ -8,7 +8,6 @@ import introduccionImg from "../../../../public/introduccion.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import TypingEffect from "@/components/TypingEffect";
-import { useRouter } from "next/navigation";
 import { BACKEND_URL } from "@/constant/backend";
 import type { Materia } from "@/types/Materia";
 import type { Seccion } from "@/types/Seccion";
@@ -221,74 +220,4 @@ const MaterialPage = ({ params }: { params: { id: string } }) => {
         </div>
     );
 };
-/*
-interface Material {
-  text: string;
-  icon: React.ElementType<SvgIconProps>;
-  href: string;
-  color?: "red" | "green" | "indigo";
-  materialDescription: string;
-}
-
-interface MaterialSectionProps {
-  title: string;
-  materials: Material[];
-}
-
-const MaterialSection: React.FC<MaterialSectionProps> = ({
-  title,
-  materials,
-}) => (
-  <div className="bg-gray-800 rounded-2xl shadow-lg p-6">
-    <h2 className="text-xl font-semibold text-blue-400 text-center mb-2">
-      {title}
-    </h2>
-
-    <div className="space-y-4">
-      {materials.map((material, index) => (
-        <div key={index} className="space-y-1">
-          <ButtonMaterial
-            text={material.text}
-            Icon={material.icon}
-            href={material.href}
-            color={material.color || "indigo"}
-          />
-          <p className="text-gray-400 text-sm">
-            {material.materialDescription}
-          </p>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-interface ButtonMaterialProps {
-  text: string;
-  Icon: React.ElementType<SvgIconProps>;
-  href: string;
-  color?: "red" | "green" | "indigo";
-}
-const ButtonMaterial: React.FC<ButtonMaterialProps> = ({
-  text,
-  Icon,
-  href,
-  color = "indigo",
-}) => {
-  const bgColor =
-    color === "red"
-      ? "bg-red-600 hover:bg-red-700"
-      : color === "green"
-      ? "bg-green-500 hover:bg-green-600"
-      : "bg-indigo-700 hover:bg-indigo-500";
-
-  return (
-    <Link
-      href={href}
-      className={`flex items-center justify-center space-x-2 ${bgColor} text-white px-5 py-3 rounded-full font-semibold transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${color}-600 w-full text-base`}
-    >
-      <Icon className="mr-2" />
-      {text}
-    </Link>
-  );
-};*/
-
 export default MaterialPage;

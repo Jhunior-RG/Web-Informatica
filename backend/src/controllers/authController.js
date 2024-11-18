@@ -31,7 +31,7 @@ export const registrarUsuario = async (req, res) => {
 export const iniciarSession = async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log(email, password);
+        //console.log(email, password);
 
         const usuario = await Usuario.findOne({ where: { email } });
         if (!usuario || usuario.password !== password) {

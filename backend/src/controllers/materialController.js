@@ -110,7 +110,7 @@ export const eliminarMaterial = async (req, res) => {
         if (usuario.id !== material.idUsuario && usuario.rol !== "admin") {
             return res.status(401).json({
                 message: "No tienes permisos para eliminar este material",
-            }); 
+            });
         }
 
         //eliminar del bucket

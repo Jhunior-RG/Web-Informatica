@@ -22,6 +22,10 @@ const Usuario = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    rol: {
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   },
   { tableName: "Usuarios", timestamps: false }
 );

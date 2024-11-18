@@ -4,7 +4,7 @@ import Link from "next/link";
 import imageDefault from "../public/image_default.png";
 import Image from "next/image";
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface MaterialProps {
     title: string;
@@ -22,27 +22,22 @@ const MaterialTarget: React.FC<MaterialProps> = ({
     isPopular,
 }) => {
     const ref = useRef(null);
+    /*
     const { scrollYProgress } = useScroll({
         target: ref,
         offset: ["end end", "start start"],
     });
 
     // Animaciones basadas en el scroll
-    const scale = useTransform(scrollYProgress, [0,0.05], [0.75,1]);
-    const opacity = useTransform(scrollYProgress, [0, 0.05], [0, 0.75]);
-    const x = useTransform(scrollYProgress, [0,0.05],[-500,0])
-    const rotate = useTransform(
-        scrollYProgress,
-        [0, 0.05,1],
-        [180, 0,0],
-        
-      )
+    const scale = useTransform(scrollYProgress, [0, 0], [1, 1]);
+    const opacity = useTransform(scrollYProgress, [-1, .1], [0, 1]);
+    const x = useTransform(scrollYProgress, [-100, 0], [100, 1]);
+    */
     return (
         <motion.div
             ref={ref}
-            style={{ scale,opacity ,x}}
+            //style={{ scale, opacity, x }}
             className="flex bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
-            
         >
             {/* Imagen del curso */}
             <div className="relative w-1/3 h-full">

@@ -2,6 +2,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { BACKEND_URL } from "@/constant/backend";
 
 const AgregarSeccion = () => {
   const [nombre, setNombre] = useState("");
@@ -19,7 +20,7 @@ const AgregarSeccion = () => {
         nombre,
         idMateria,
       };
-      await axios.post("http://localhost:4000/api/materiales/seccion", seccion);
+      await axios.post(BACKEND_URL + "/api/materiales/seccion", seccion);
       console.log(seccion)
       setNombre("");
       router.back()

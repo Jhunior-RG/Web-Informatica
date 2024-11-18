@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import TypingEffect from "@/components/TypingEffect";
 import {useRouter} from 'next/navigation'
+import { BACKEND_URL } from "@/constant/backend";
 
 const MaterialPage = ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -26,20 +27,20 @@ const MaterialPage = ({ params }: { params: { id: string } }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/materiales/materia/${id}/seccion`
+          BACKEND_URL + `/api/materiales/materia/${id}/seccion`
         );
         setData(response.data);
       } catch (err) {
         console.error(err);
       }
-      console.log(`el id de la pagina es: ${id}`);
     };
     const datosMateria = async () => {
       try {
         const datos = await axios.get(
-          `http://localhost:4000/api/materias/${id}`
+          BACKEND_URL+`/api/materias/${id}`
         );
         setMateria(datos.data);
+        console.log(datos.data)
       } catch (err) {
         console.error(err);
       }
@@ -58,7 +59,7 @@ const MaterialPage = ({ params }: { params: { id: string } }) => {
       {/* Imagen de fondo y título */}
       <div
         style={{
-          backgroundImage: `url(${introduccionImg.src})`,
+          backgroundImage: `url(${materia.urlImagen})`,
         }}
         className="bg-cover bg-center h-56 rounded-2xl relative shadow-lg"
       >

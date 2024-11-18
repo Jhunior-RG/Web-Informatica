@@ -78,7 +78,7 @@ const Page = () => {
         fin.setHours(endHour, endMinute, 0);
 
         if (horaActual >= inicio && horaActual < fin) {
-            return "border-gray-500";
+            return "animate-bounce";
         } else {
             return "border-white";
         }
@@ -136,8 +136,8 @@ const Page = () => {
 
     return (
         <div className=" bg-gray-800 mx-auto pt-5 ">
-            <div className="flex justify-between items-center mb-4">
-                <TypingEffect className="text-indigo-200" text="Horario" />
+            <div className="flex justify-between items-center mx-4">
+                <TypingEffect className="text-indigo-200 text-3xl md:text-4xl" text="Horario" />
 
                 <button
                     onClick={() => setIsModalOpen(true)}
@@ -199,7 +199,7 @@ const Page = () => {
                     {horas.map((hour, index) => (
                         <div
                             key={index}
-                            className="h-16 border-b border-gray-300 flex items-inicio justify-center text-gray-100 font-semibold"
+                            className="h-16 border-b border-gray-300 flex items-center justify-center text-gray-100 font-semibold"
                         >
                             {hour}
                         </div>
@@ -223,7 +223,7 @@ const Page = () => {
                         }`}
                     >
                         <button
-                            className="sticky top-2 z-20 rounded-lg text-indigo-800 border-b-4 border-l-4 border-indigo-600  p-2 border-right-0 left-0 text-center w-full font-bold bg-gray-100"
+                            className="sticky top-2 z-20 rounded-lg text-indigo-800 border-b-4 border-r-4 border-indigo-600  p-2 border-right-0 left-0 text-center w-full font-bold bg-gray-100"
                             onClick={() => {
                                 setDiaSeleccionado(
                                     diaSeleccionado === null ? dayIndex : null
@@ -239,7 +239,7 @@ const Page = () => {
                         {clases[dayIndex]?.map((clase, index) => (
                             <motion.div
                                 key={index}
-                                className={`absolute left-0 right-0  border-b-4 border-t-4 text-gray-50 rounded-xl shadow-md border-gray-200  flex items-center justify-center font-bold text-center text-xs ${getTailwindColor(
+                                className={`absolute left-0 right-0   text-gray-50 rounded-xl shadow-md border-gray-200  flex items-center justify-center font-bold text-center text-xs ${getTailwindColor(
                                     clase.idGrupo
                                 )} 
                                 ${getClassBorderColor(

@@ -3,6 +3,7 @@
 import axios from "axios";
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import {useRouter} from 'next/navigation'
+import { BACKEND_URL } from "@/constant/backend";
 
 
 const AgregarMaterial = () => {
@@ -45,7 +46,7 @@ const AgregarMaterial = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:4000/api/materiales/material",
+          BACKEND_URL + "/api/materiales/material",
           formData,
           {
             headers: {
@@ -70,7 +71,7 @@ const AgregarMaterial = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:4000/api/materiales/link",
+          BACKEND_URL + "/api/materiales/link",
           material,
           {
             headers: {

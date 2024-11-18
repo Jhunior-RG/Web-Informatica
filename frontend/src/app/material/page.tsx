@@ -79,6 +79,7 @@ const Home = () => {
                         key={index}
                         title={materia.nombre}
                         link={`/material/materia/${materia.id}`}
+                        srcImage={materia.urlImagen}
                     />
                 ))}
                 

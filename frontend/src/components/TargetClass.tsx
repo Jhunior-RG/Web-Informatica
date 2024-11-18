@@ -41,7 +41,7 @@ export const TargetClass: React.FC<TargetClassProps> = ({
                         {removeGroup && (
                             <button
                                 onClick={() => removeGroup(clase.idGrupo)}
-                                className="rounded-full w-4 h-4 flex items-center justify-center text-black font-bold"
+                                className="rounded-full w-4 h-4 flex items-center justify-center text-white font-bold"
                             >
                                 <svg
                                     className="h-6 w-6"

@@ -3,7 +3,12 @@ import Materia from "../models/materia.js";
 export const obtenerMaterias = async (req, res) => {
     try{
         const materias = await Materia.findAll()
-        res.status(201).json({ data: materias, message: "se obtuvo todas las materias correctamente" })
+        const datos = {
+          data: materias,
+          message: "se obtuvo todas las materias correctamente",
+        };
+        datos.data.sort((a, b) => a.id - b.id);
+        res.status(201).json(datos)
     }catch(e){
         console.error(e);
         res.status(500).send("Error al obtener las materias");

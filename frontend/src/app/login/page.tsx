@@ -11,10 +11,10 @@ export default function Login() {
     const [error,setError] = useState('');
     const router = useRouter();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = { email, password };
-        console.log(data);
+        //console.log(data);
 
         const res = await fetch(`${BACKEND_URL}/api/login`, {
             method: "POST",
@@ -73,7 +73,6 @@ export default function Login() {
                         required
                     />
                 </div>
-                {error && <p className="text-red-600">{error}</p>}
                 <button
                     type="submit"
                     className="w-full py-3 bg-indigo-600 text-white rounded-full font-semibold hover:bg-indigo-500 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-300"
@@ -81,6 +80,9 @@ export default function Login() {
                     Iniciar Sesión
                 </button>
             </form>
+
+
+            <p className="text-red-600 mt-3">{error}</p>
 
             {/* Cambiar entre Iniciar sesión y Registro */}
             <div className="text-gray-500 mt-6">

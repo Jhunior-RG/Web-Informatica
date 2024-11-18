@@ -12,7 +12,8 @@ import setupAssociations from "./models/associations.js";
 import db from "./config/db.js";
 import semestres from "./routes/semestres.js";
 import grupos from "./routes/grupos.js";
-import { seed } from "./config/data.js";
+import { createAdmin, seed } from "./config/data.js";
+import morgan from 'morgan'
 
 const app = express();
 const port = process.env.PORT;
@@ -26,6 +27,7 @@ const iniciarBD = async () => {
 
     await db.sync({ alter: true });
     //seed()
+    createAdmin()
     
   } catch (error) {
     console.error("Error de conexión a la base de datos:", error);
@@ -35,6 +37,7 @@ const iniciarBD = async () => {
 
 iniciarBD();
 
+app.use(morgan('dev'))
 app.use(cors());
 app.use(express.json());
 

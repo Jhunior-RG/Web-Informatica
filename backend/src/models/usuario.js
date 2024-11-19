@@ -20,11 +20,15 @@ const Usuario = db.define(
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     rol: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    googleId: {
+      type: DataTypes.STRING,
+      allowNull: true,
     }
   },
   { tableName: "Usuarios", timestamps: false }

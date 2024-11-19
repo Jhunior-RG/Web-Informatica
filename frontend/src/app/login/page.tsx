@@ -4,6 +4,7 @@ import { LockOutlined, EmailOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BACKEND_URL } from "@/constant/backend";
+import LoginGoogle from "@/components/LoginGoogle";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -104,6 +105,9 @@ export default function Login() {
                 >
                     ¿Olvidaste tu contraseña?
                 </Link>
+            </div>
+            <div className="max-w-md w-full px-8 my-3">
+                <LoginGoogle />
             </div>
         </div>
     );

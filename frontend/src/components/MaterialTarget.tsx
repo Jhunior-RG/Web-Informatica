@@ -4,7 +4,8 @@ import Link from "next/link";
 import imageDefault from "../public/image_default.png";
 import Image from "next/image";
 import { useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+
 
 interface MaterialProps {
     title: string;
@@ -42,7 +43,9 @@ const MaterialTarget: React.FC<MaterialProps> = ({
         <div
           className="relative w-1/3 h-full"
           style={{
-            backgroundImage: `url(${srcImage})`,
+            backgroundImage: srcImage
+              ? `url(${srcImage})`
+              : `url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0nOKUCdIIk3u06Dn0CrR4saa4v3donSXbyA&s)`,
             backgroundSize: "cover", // Asegura que la imagen cubra todo el contenedor
             backgroundPosition: "center", // Centra la imagen dentro del contenedor
             backgroundRepeat: "no-repeat", // Evita que la imagen se repita

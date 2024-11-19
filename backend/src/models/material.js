@@ -15,6 +15,14 @@ const Material = db.define(
     descripcion: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    licencia: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    descripcionLicencia: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   },
   {

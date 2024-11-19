@@ -45,7 +45,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col items-center py-6 space-y-10 px-4 lg:px-8 bg-gray-900">
+    <div className="w-full flex flex-col items-center py-6 space-y-8 px-4 lg:px-8 bg-gray-900">
       {/* Título */}
       <TypingEffect text="Materiales de Estudio" className="text-3xl text-white text-center"/>
 
@@ -68,7 +68,7 @@ const Home = () => {
 
       {/* Materiales */}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full pb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
         {materias.map((materia, index) => (
           <MaterialTarget
             key={index}

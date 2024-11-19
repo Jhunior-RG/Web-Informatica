@@ -37,7 +37,7 @@ const MaterialTarget: React.FC<MaterialProps> = ({
       <motion.div
         ref={ref}
         style={{ scale, opacity, x }}
-        className="flex bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
+        className="flex bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 transform -my-2 sm:-my-0"
       >
         {/* Imagen del curso */}
         <div

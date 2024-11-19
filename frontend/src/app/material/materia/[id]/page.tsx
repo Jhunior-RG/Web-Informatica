@@ -115,7 +115,11 @@ const MaterialPage = ({ params }: { params: { id: string } }) => {
       {/* Imagen de fondo y título */}
       <div
         style={{
-          backgroundImage: `url(${introduccionImg.src})`,
+          backgroundImage: `url(${
+            materia.urlImagen
+              ? materia.urlImagen
+              : "https://st2.depositphotos.com/2289871/12276/i/450/depositphotos_122768864-stock-photo-cute-tabby-kittens-sleeping-and.jpg"
+          })`,
         }}
         className="bg-cover bg-center h-56 rounded-2xl relative shadow-lg"
       >
@@ -164,16 +168,18 @@ const MaterialPage = ({ params }: { params: { id: string } }) => {
                             <DownloadIcon className="mr-2" />
                             {material.nombre}
                           </Link>
-                          {user && (material.idUsuario === user.id || user.rol == "admin") && (
-                            <button
-                              onClick={() => {
-                                deleteMaterial(material.id);
-                              }}
-                              className="flex items-center justify-center  px-5 py-3 rounded-full transition-all duration-300 hover:shadow-lg hover:bg-white   text-base"
-                            >
-                              <Delete color="error" />
-                            </button>
-                          )}
+                          {user &&
+                            (material.idUsuario === user.id ||
+                              user.rol == "admin") && (
+                              <button
+                                onClick={() => {
+                                  deleteMaterial(material.id);
+                                }}
+                                className="flex items-center justify-center  px-5 py-3 rounded-full transition-all duration-300 hover:shadow-lg hover:bg-white   text-base"
+                              >
+                                <Delete color="error" />
+                              </button>
+                            )}
                         </div>
 
                         <p className="text-gray-400 text-sm text-center">

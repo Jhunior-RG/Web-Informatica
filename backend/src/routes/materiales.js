@@ -15,7 +15,7 @@ const materiales = Router();
 materiales.post("/seccion", crearSeccion);
 materiales.get("/materia/:id/seccion", obtenerSeccionesDeMateria);
 materiales.post("/material",authToken, upload.single("archivo"), crearMaterial);
-materiales.post("/link", crearLink);
+materiales.post("/link", authToken, crearLink);
 materiales.delete("/:id", authToken, eliminarMaterial);
 
 export default materiales;

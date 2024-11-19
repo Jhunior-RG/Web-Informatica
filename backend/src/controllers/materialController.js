@@ -47,7 +47,13 @@ export const obtenerSeccionesDeMateria = async (req, res) => {
 
 export const crearMaterial = async (req, res) => {
   try {
-    const usuario = await Usuario.findByPk(req.usuario.id);
+    console.log("Usuario autenticado:", req.usuario);
+
+    const usuario = await Usuario.findByPk(req.usuario?.id);
+    if (!usuario) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
     if (!req.file) {
       return res.status(400).send("No se ha subido ningún archivo.");
     }
@@ -95,7 +101,13 @@ export const crearMaterial = async (req, res) => {
 
 export const crearLink = async (req, res) => {
   try {
-    const usuario = await Usuario.findByPk(req.usuario.id);
+    console.log("Usuario autenticado:", req.usuario);
+
+    const usuario = await Usuario.findByPk(req.usuario?.id);
+    if (!usuario) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
     const {
       url,
       nombre,
@@ -104,23 +116,30 @@ export const crearLink = async (req, res) => {
       licencia,
       descripcionLicencia,
     } = req.body;
-    await Material.create({
+
+    console.log("Datos recibidos:", req.body);
+
+    const nuevoMaterial = await Material.create({
       url,
       nombre,
       descripcion,
       idSeccion,
       licencia,
       descripcionLicencia,
-      idUsuario: usuario.id,
+      idUsuario: usuario.id
     });
 
+    console.log("Material creado:", nuevoMaterial);
+
     res.status(201).json({
-      message: "Material con link Creado exitosamente",
+      message: "Material con link creado exitosamente",
     });
   } catch (error) {
+    console.error("Error en el servidor:", error);
     res.status(500).send(`Error en el servidor: ${error.message}`);
   }
 };
+
 export const eliminarMaterial = async (req, res) => {
   try {
     const usuario = await Usuario.findByPk(req.usuario.id);

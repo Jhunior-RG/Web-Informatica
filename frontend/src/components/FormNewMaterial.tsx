@@ -39,7 +39,7 @@ const FormNewMaterial = ({ isOpen, onClose, idSeccion }: Props) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
+    console.log("token", token);
     if (materialType === "file" && file) {
       // Enviar FormData para archivo
       const formData = new FormData();
@@ -67,7 +67,7 @@ const FormNewMaterial = ({ isOpen, onClose, idSeccion }: Props) => {
         );
 
         console.log("Archivo subido con éxito", response.data);
-        resetForm()
+        resetForm();
         onClose();
       } catch (error) {
         console.error("Error al subir archivo:", error);
@@ -92,11 +92,12 @@ const FormNewMaterial = ({ isOpen, onClose, idSeccion }: Props) => {
           material,
           {
             headers: {
-              "Content-Type": "application/json", // Aseguramos que es JSON
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
             },
           }
         );
-
+        console.log("Token enviado:", token);
         console.log("Enlace subido con éxito", response.data);
         resetForm();
         onClose();

@@ -32,21 +32,22 @@ export const registrarUsuario = async (req, res) => {
 };
 
 export const iniciarSession = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        //console.log(email, password);
+  try {
+    const { email, password } = req.body;
+    const usuario = await Usuario.findOne({ where: { email } });
 
-        const usuario = await Usuario.findOne({ where: { email } });
-        if (!usuario || usuario.password !== password) {
-            res.status(400).json({ message: "correo o contraseña invalido" });
-        }
-        const token = jwt.sign({ id: usuario.id }, JWT_SECRET, {
-            expiresIn: "30d",
-        });
-        res.json({ message: "Inicio de sesion exitoso", token });
-    } catch (e) {
-        res.status(400).json({ message: e.message });
+    if (!usuario || usuario.password !== password) {
+      return res.status(400).json({ message: "Correo o contraseña inválidos" });
     }
+
+    const token = jwt.sign({ id: usuario.id }, JWT_SECRET, {
+      expiresIn: "30d",
+    });
+
+    return res.json({ message: "Inicio de sesión exitoso", token });
+  } catch (e) {
+    return res.status(400).json({ message: e.message });
+  }
 };
 
 export const obtenerPerfil = async (req, res) => {

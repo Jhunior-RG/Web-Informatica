@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Add, Delete } from "@mui/icons-material";
 import DownloadIcon from "@mui/icons-material/Download";
-import introduccionImg from "../../../../public/introduccion.png";
 //import type { SvgIconProps } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";

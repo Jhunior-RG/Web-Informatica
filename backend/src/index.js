@@ -14,6 +14,7 @@ import semestres from "./routes/semestres.js";
 import grupos from "./routes/grupos.js";
 import { createAdmin, seed } from "./config/data.js";
 import morgan from 'morgan'
+import pensum from "./routes/pensum.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -51,6 +52,7 @@ app.use("/api/horarios", horarios);
 app.use("/api/grupos", grupos);
 
 app.use("/api/semestres", semestres);
+app.use("/api/pensum", pensum)
 
 //app.use('/api/clase',clases)
 

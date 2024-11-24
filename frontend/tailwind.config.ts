@@ -18,6 +18,13 @@ const config: Config = {
         satisfy: ["var(--font-satisfy)"],
         silkscreen: ["var(--font-silkscreen)"],
       },
+      dropShadow: {
+        '3xl': '0 35px 35px rgba(0, 0, 0, 0.25)',
+        '4xl': [
+            '0 0px 5px rgba(0, 0, 0, 0.25)',
+            '0 0px 5px rgba(0, 0, 0, 0.15)'
+        ]
+      }
     },
   },
   plugins: [],

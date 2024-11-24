@@ -18,11 +18,15 @@
     "@mui/material": "^6.1.1",
     "@react-oauth/google": "^0.12.1",
     "axios": "^1.7.7",
+    "colorthief": "^2.6.0",
     "framer-motion": "^11.11.10",
     "next": "14.2.11",
+    "pdfjs-dist": "^3.4.120",
+    "puppeteer": "^23.9.0",
     "react": "^18",
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18",
+    "react-pdf": "^7.0.0",
     "three": "^0.168.0"
   },
   "devDependencies": {

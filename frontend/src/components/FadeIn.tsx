@@ -1,6 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 
-const FadeIn = ({ children, duration = 1000, delay = 0 }) => {
+interface FadeInProps {
+  children: ReactNode;
+  duration?: number;
+  delay?: number;
+}
+
+const FadeIn: React.FC<FadeInProps> = ({
+  children,
+  duration = 1000,
+  delay = 0,
+}) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {

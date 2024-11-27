@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Sparkles } from "lucide-react";
 
-const Felicitaciones = ({ isVisible, onClose }) => {
+interface Props {
+  isVisible : boolean,
+  onClose: () => void,
+}
+
+const Felicitaciones = ({ isVisible, onClose }:Props) => {
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {

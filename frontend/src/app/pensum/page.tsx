@@ -15,11 +15,20 @@ import ModificarEstado from "@/components/ModificarEstado";
 import Felicitaciones from "@/components/Felicitaciones";
 import TypingEffect from "@/components/TypingEffect";
 
-const Context = createContext<any>(null);
+// Definir el tipo del contexto
+interface EstadoContextType {
+  setOpenModificarEstado: React.Dispatch<React.SetStateAction<boolean>>;
+  setEstados: React.Dispatch<React.SetStateAction<Estado[]>>;
+  setIdMateria: React.Dispatch<React.SetStateAction<number>>;
+}
 
+// Crear el contexto con un valor inicial nulo
+const Context = createContext<EstadoContextType | null>(null);
+
+// Interfaz para los props y datos
 interface SemesterProps {
   title: string;
-  progress: number; // Progreso del semestre
+  progress: number;
   courses: Materia[];
 }
 
@@ -39,12 +48,11 @@ interface Semestre {
   nombre: string;
   Materia: Materia[];
 }
+
 const Pensum: React.FC = () => {
   const [semestres, setSemestres] = useState<Semestre[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [openModificarEstado, setOpenModificarEstado] =
-    useState<boolean>(false);
-
+  const [openModificarEstado, setOpenModificarEstado] = useState(false);
   const [idMateria, setIdMateria] = useState(-1);
   const [estados, setEstados] = useState<Estado[]>([]);
 
@@ -52,8 +60,8 @@ const Pensum: React.FC = () => {
     let progreso = 0;
     for (const materia of materias) {
       if (
-        materia.Estados.length != 0 &&
-        materia.Estados[0].estado == "Aprobado"
+        materia.Estados.length !== 0 &&
+        materia.Estados[0].estado === "Aprobado"
       ) {
         progreso += 1;
       }
@@ -61,21 +69,7 @@ const Pensum: React.FC = () => {
     return progreso;
   };
 
-  const egresar = () => {
-    let progreso = 0;
-    for (const semestre of semestres) {
-      const materias = semestre.Materia;
-      for (const materia of materias) {
-        if (
-          materia.Estados.length != 0 &&
-          materia.Estados[0].estado == "Aprobado"
-        ) {
-          progreso += 1;
-        }
-      }
-    }
-    return progreso;
-  };
+  
 
   const getData = async () => {
     try {
@@ -85,7 +79,6 @@ const Pensum: React.FC = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log(res.data);
       setSemestres(res.data);
     } catch (e) {
       console.error(e);
@@ -97,7 +90,21 @@ const Pensum: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Materias Aprobadas: ", egresar());
+    const egresar = () => {
+      let progreso = 0;
+      for (const semestre of semestres) {
+        const materias = semestre.Materia;
+        for (const materia of materias) {
+          if (
+            materia.Estados.length !== 0 &&
+            materia.Estados[0].estado === "Aprobado"
+          ) {
+            progreso += 1;
+          }
+        }
+      }
+      return progreso;
+    };
     if (egresar() >= 48) {
       setShowModal(true);
     }
@@ -140,7 +147,7 @@ const Pensum: React.FC = () => {
 
 function DropDown({ title, courses, progress }: SemesterProps) {
   const [openDropDown, setOpenDropDown] = useState(false);
-  const total = title == "Electivas" ? 6 : courses.length;
+  const total = title === "Electivas" ? 6 : courses.length;
   return (
     <div className="w-full max-w-lg transition-all duration-300">
       <button
@@ -149,7 +156,7 @@ function DropDown({ title, courses, progress }: SemesterProps) {
       >
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-lg font-semibold ">{title}</p>
+            <p className="text-lg font-semibold">{title}</p>
             <div className="relative w-32 h-2 bg-gray-300 rounded-full mt-2">
               <div
                 className="absolute top-0 h-2 rounded-full bg-green-400"
@@ -171,18 +178,24 @@ function DropDown({ title, courses, progress }: SemesterProps) {
   );
 }
 
+type EstadoKey = "Aprobado" | "En Curso" | "Pendiente";
+
 function CourseCard({ course }: { course: Materia }) {
   const { setOpenModificarEstado, setEstados, setIdMateria } = useEstado();
-  const estado =
-    course.Estados.length == 0 ? "Pendiente" : course.Estados[0].estado;
-  // Usamos la interfaz CourseProps
-  const statusColors = {
+
+  // Forzamos a que `estado` sea del tipo `EstadoKey`
+  const estado: EstadoKey =
+    course.Estados.length === 0
+      ? "Pendiente"
+      : (course.Estados[0].estado as EstadoKey);
+
+  const statusColors: Record<EstadoKey, string> = {
     Aprobado: "text-green-600",
     "En Curso": "text-yellow-600",
     Pendiente: "text-red-600",
   };
 
-  const statusIcons = {
+  const statusIcons: Record<EstadoKey, JSX.Element> = {
     Aprobado: <CheckCircle className="text-green-600" />,
     "En Curso": <HourglassEmpty className="text-yellow-600" />,
     Pendiente: <Cancel className="text-red-600" />,
@@ -213,6 +226,14 @@ function CourseCard({ course }: { course: Materia }) {
   );
 }
 
+
 export default Pensum;
 
-export const useEstado = () => useContext(Context);
+// Hook personalizado para usar el contexto
+export const useEstado = () => {
+  const context = useContext(Context);
+  if (!context) {
+    throw new Error("useEstado must be used within a Context.Provider");
+  }
+  return context;
+};

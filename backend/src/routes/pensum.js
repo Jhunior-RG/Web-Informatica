@@ -20,16 +20,19 @@ pensum.get("/", authToken, async (req, res) => {
             {
               model: Estado,
               where: { idUsuario: id },
-              attributes: ["id","estado"],
+              attributes: ["id", "estado"],
               required: false,
             },
           ],
+          order: [["id", "ASC"]], // Este orden solo afecta a las Materias dentro de cada Semestre
         },
       ],
+      order: [["id", "ASC"]], // Orden de los semestres
     });
     res.json(semestres);
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: "Error al obtener los semestres" });
   }
 });
 

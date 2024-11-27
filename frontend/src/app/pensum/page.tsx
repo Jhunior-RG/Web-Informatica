@@ -12,6 +12,8 @@ import {
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import ModificarEstado from "@/components/ModificarEstado";
+import Felicitaciones from "@/components/Felicitaciones";
+import TypingEffect from "@/components/TypingEffect";
 
 const Context = createContext<any>(null);
 
@@ -39,6 +41,7 @@ interface Semestre {
 }
 const Pensum: React.FC = () => {
   const [semestres, setSemestres] = useState<Semestre[]>([]);
+  const [showModal, setShowModal] = useState(false);
   const [openModificarEstado, setOpenModificarEstado] =
     useState<boolean>(false);
 
@@ -53,6 +56,22 @@ const Pensum: React.FC = () => {
         materia.Estados[0].estado == "Aprobado"
       ) {
         progreso += 1;
+      }
+    }
+    return progreso;
+  };
+
+  const egresar = () => {
+    let progreso = 0;
+    for (const semestre of semestres) {
+      const materias = semestre.Materia;
+      for (const materia of materias) {
+        if (
+          materia.Estados.length != 0 &&
+          materia.Estados[0].estado == "Aprobado"
+        ) {
+          progreso += 1;
+        }
       }
     }
     return progreso;
@@ -77,20 +96,32 @@ const Pensum: React.FC = () => {
     getData();
   }, []);
 
+  useEffect(() => {
+    console.log("Materias Aprobadas: ", egresar());
+    if (egresar() >= 48) {
+      setShowModal(true);
+    }
+  }, [semestres]);
+
   return (
-    <div className="flex flex-col items-center justify-center p-5 space-y-6 w-full">
-      <ModificarEstado
-        isOpen={openModificarEstado}
-        idMateria={idMateria}
-        estados={estados}
-        onClose={() => {
-          setOpenModificarEstado(false);
-          getData();
-        }}
-      />
-      <h1 className="text-4xl font-bold text-white mb-5">
-        Plan de Estudios por Semestre
-      </h1>
+    <div className="flex flex-col items-center justify-center p-5 first:space-y-6 w-full">
+      <div>
+        <ModificarEstado
+          isOpen={openModificarEstado}
+          idMateria={idMateria}
+          estados={estados}
+          onClose={() => {
+            setOpenModificarEstado(false);
+            getData();
+          }}
+        />
+        <Felicitaciones
+          isVisible={showModal}
+          onClose={() => setShowModal(false)}
+        />
+      </div>
+
+      <TypingEffect className="text-4xl text-white" text="Malla Curricular" />
       <Context.Provider
         value={{ setOpenModificarEstado, setEstados, setIdMateria }}
       >
@@ -173,7 +204,7 @@ function CourseCard({ course }: { course: Materia }) {
         onClick={() => {
           setOpenModificarEstado(true);
           setEstados(course.Estados);
-          setIdMateria(course.id)
+          setIdMateria(course.id);
         }}
       >
         <SettingsIcon className="text-white transition-transform" />

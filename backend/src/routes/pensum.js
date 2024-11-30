@@ -24,10 +24,10 @@ pensum.get("/", authToken, async (req, res) => {
               required: false,
             },
           ],
-          order: [["id", "ASC"]], // Este orden solo afecta a las Materias dentro de cada Semestre
+          order: [["id", "ASC"]],
         },
       ],
-      order: [["id", "ASC"]], // Orden de los semestres
+      order: [["id", "ASC"]],
     });
     res.json(semestres);
   } catch (error) {

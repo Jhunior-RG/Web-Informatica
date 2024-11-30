@@ -3,9 +3,8 @@ import { Delete } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import ColorThief from "colorthief";
 import Pdf from "./PdfThumbnail";
-
+import {FastAverageColor} from 'fast-average-color';
 const getMaterialType = (url: string) => {
     if (url.includes("youtube.com") || url.includes("youtu.be")) return "video";
     if (url.endsWith(".pdf")) return "pdf";
@@ -27,13 +26,11 @@ const Material = ({ material, onDelete, remove }: Props) => {
     const materialType = getMaterialType(material.url);
 
     useEffect(() => {
+        const fac = new FastAverageColor();
         if (imgRef.current) {
-            const colorThief = new ColorThief();
-            imgRef.current.onload = () => {
-                const colors = colorThief.getColor(imgRef.current!);
-                setBgColor(`rgb(${colors[0]}, ${colors[1]}, ${colors[2]})`);
-                setIsClarity((colors[0] + colors[1] + colors[2]) / 3 > 128);
-            };
+            const color = fac.getColor(imgRef.current);
+            setBgColor(color.rgb);
+            setIsClarity((color.value[0] + color.value[1] + color.value[2]) / 3 > 128);
         }
     }, [favicon]);
 

@@ -1,7 +1,7 @@
 "use client";
 import { Add } from "@mui/icons-material";
 //import type { SvgIconProps } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import TypingEffect from "@/components/TypingEffect";
 import { BACKEND_URL } from "@/constant/backend";
@@ -35,7 +35,7 @@ const MaterialPage = ({ params }: { params: { id: string } }) => {
         }
     };
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             const response = await axios.get(
                 `${BACKEND_URL}/api/materiales/materia/${id}/seccion`
@@ -46,22 +46,20 @@ const MaterialPage = ({ params }: { params: { id: string } }) => {
             console.error(err);
         }
         console.log(`el id de la pagina es: ${id}`);
-    };
-    const datosMateria = async () => {
+    },[id])
+    const datosMateria = useCallback(async () => {
         try {
             const datos = await axios.get(`${BACKEND_URL}/api/materias/${id}`);
             setMateria(datos.data);
         } catch (err) {
             console.error(err);
         }
-    };
+    },[id]);
     useEffect(() => {
-        sessionStorage.setItem("idMateria", id.toString());
-        console.log("el id del sesion es:", id);
         datosMateria();
         fetchData();
         getProfile();
-    }, []);
+    }, [datosMateria, fetchData]);
 
     const deleteMaterial = async (idMaterial: number) => {
         try {

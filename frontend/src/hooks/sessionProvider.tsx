@@ -7,13 +7,18 @@ import { Profile } from "@/types/Profile";
 const SessionProvider = ({ children }: React.PropsWithChildren) => {
     const [user, setUser] = useState<Profile | null>(null);
     const fetchUser = async () => {
-        const response = await fetch(BACKEND_URL + "/api/perfil", {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-        });
-        const { data } = await response.json();
-        setUser(data);
+        try {
+
+            const response = await fetch(BACKEND_URL + "/api/perfil", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            const { data } = await response.json();
+            setUser(data);
+        }catch (e){
+            console.error("no se pudieron obtener los datos del usuario",e);
+        }
     };
 
     useEffect(() => {

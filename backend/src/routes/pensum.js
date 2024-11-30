@@ -37,66 +37,91 @@ pensum.get("/", authToken, async (req, res) => {
 });
 
 pensum.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const estados = await Usuario.findByPk(id, {
-      include: [
-        {
-          model: Estado,
-        },
-      ],
-    });
-    res.json(estados);
-  } catch (e) {
-    console.error(e);
-  }
+    const { id } = req.params;
+    try {
+        const estados = await Usuario.findByPk(id, {
+            include: [
+                {
+                    model: Estado,
+                },
+            ],
+        });
+        res.json(estados);
+    } catch (e) {
+        console.error(e);
+    }
 });
 
 pensum.post("/estado", authToken, async (req, res) => {
-  const idUsuario = req.usuario.id;
-  if (!idUsuario) {
-    return res.status(400).json({ message: "Usuario no Valido" });
-  }
-  console.log(req.body)
-  const { idMateria, estado } = req.body;
+    const idUsuario = req.usuario.id;
+    if (!idUsuario) {
+        return res.status(400).json({ message: "Usuario no Valido" });
+    }
+    console.log(req.body);
+    const { idMateria, estado } = req.body;
 
-  if (!idMateria || !estado) {
-    return res.status(400).json({ message: "Faltan parámetros requeridos" });
-  }
+    if (!idMateria || !estado) {
+        return res
+            .status(400)
+            .json({ message: "Faltan parámetros requeridos" });
+    }
 
-  try {
-    const newEstado = await Estado.create({
-      estado,
-      idUsuario,
-      idMateria,
-    });
-    res.status(201).json(newEstado);
-  } catch (error) {
-    res.status(500).json({
-      messaje: "no se pudo crear el estado",
-      error: error.messaje,
-    });
-  }
+    try {
+        const newEstado = await Estado.create({
+            estado,
+            idUsuario,
+            idMateria,
+        });
+        res.status(201).json(newEstado);
+    } catch (error) {
+        res.status(500).json({
+            messaje: "no se pudo crear el estado",
+            error: error.messaje,
+        });
+    }
 });
 
 pensum.patch("/estado", async (req, res) => {
-  const { id, estado } = req.body;
+    const { id, estado } = req.body;
 
-  if (!id || !estado) {
-    return res.status(400).json({ message: "Faltan parámetros requeridos" });
-  }
-  try {
-    const modEstado = await Estado.findOne({ where: { id } });
-    modEstado.estado = estado;
-    await modEstado.save();
-  } catch (error) {
-    res.status(500).json({
-      messaje: "no se pudo modificar el estado",
-      error: error.messaje,
-    });
-  }
+    if (!id || !estado) {
+        return res
+            .status(400)
+            .json({ message: "Faltan parámetros requeridos" });
+    }
+    try {
+        const modEstado = await Estado.findOne({ where: { id } });
+        modEstado.estado = estado;
+        await modEstado.save();
+    } catch (error) {
+        res.status(500).json({
+            messaje: "no se pudo modificar el estado",
+            error: error.messaje,
+        });
+    }
 
-  res.status(200).json({ message: "Estado modificado exitosamente!" });
+    res.status(200).json({ message: "Estado modificado exitosamente!" });
+});
+
+pensum.put("/estado", authToken, async (req, res) => {
+    const { estado, idMateria } = req.body;
+    try {
+        const usuario = await Usuario.findByPk(req.usuario.id);
+
+        let estadoMaterialUsuario = await Estado.findOne({
+            where: { idUsuario: usuario.id, idMateria },
+        });
+        if (!estadoMaterialUsuario) {
+          estadoMaterialUsuario = await Estado.create({idUsuario: usuario.id,estado:estado,idMateria})
+        } else {
+          estadoMaterialUsuario.estado = estado;
+          await estadoMaterialUsuario.save();
+        }
+        res.json({ message: "Estado modificado exitosamente!",data: estadoMaterialUsuario });
+    } catch (e) {
+        console.error(e);
+        res.json({ message: "Hubo un error" });
+    }
 });
 
 export default pensum;

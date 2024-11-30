@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-const ScrollReveal = ({ children, delay = 0 }) => {
+const ScrollReveal  = ({ children, delay = 0 }:{children: React.ReactNode,delay: number}) => {
   const elementRef = useRef(null);
 
   useEffect(() => {

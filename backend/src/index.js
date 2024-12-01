@@ -27,11 +27,15 @@ const iniciarBD = async () => {
         await db.sync({ alter: true });
         seed()
         createAdmin();
+
+        app.listen(port, () => {
+            console.log(`Servidor corriendo en http://localhost:${port}`);
+        });
     } catch (error) {
         console.error("Error de conexión a la base de datos:", error);
+        process.exit(1)
     }
 };
-iniciarBD();
 
 app.use(morgan("dev"));
 app.use(cors());
@@ -48,12 +52,9 @@ app.use("/api/grupos", grupos);
 
 app.use("/api/semestres", semestres);
 app.use("/api/pensum", pensum);
-app.use("/proxy", proxy);
+app.use("/api/proxy", proxy);
 
 app.get("/api", (req, res) => {
     res.send("Hola desde la api del Backend con HTTP 2");
 });
-
-app.listen(port, () => {
-    console.log(`Servidor corriendo en http://localhost:${port}`);
-});
+iniciarBD();

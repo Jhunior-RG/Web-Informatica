@@ -1,18 +1,10 @@
-# Iniciar el Frontend
+# Instalacion
 
-version de node usada 22
+## Requerimientos
+Docker ✔ 4.36.0 o superior [Pagina de descarga](https://www.docker.com/)
 
-```cd frontend
-```
+## Comandos
 
-## intalar dependencias
-
-```npm intall
-```
-
-## iniciar proyecto
-
-```npm run dev
-```
-
-abrir el [enlace](http://localhost:3000)
+1. `docker-compose build`
+2. `docker-compose up`
+3. [Abrir Navegador] (https://localhost)

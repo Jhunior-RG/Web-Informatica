@@ -59,7 +59,7 @@ services:
     env_file:
       - ./backend/.env
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4000/api"]
+      test: [ "CMD", "curl", "-f", "http://localhost:4000/api" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -68,5 +68,7 @@ services:
     container_name: frontend
     build:
       context: ./frontend
+      args:
+        NEXT_PUBLIC_BACKEND_URL: https://localhost/api
     ports:
       - "3000:3000"

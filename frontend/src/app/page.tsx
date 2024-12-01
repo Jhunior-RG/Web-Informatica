@@ -18,6 +18,8 @@ export interface Usuario {
   email: string;
 }
 
+console.log("backend url",BACKEND_URL)
+
 export default function Home() {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [proximamente, setProximamente] = useState<boolean>(false);

@@ -861,6 +861,12 @@ const clases = [
 ];
 
 export async function seed() {
+    const semestreExists = await Semestre.findOne();
+    if (semestreExists) {
+        console.log("Seed ya ejecutado anteriormente.");
+        return;
+    }
+
     await Semestre.sync({ force: true });
     await Materia.sync({ force: true });
     await Grupo.sync({ force: true });
@@ -871,7 +877,10 @@ export async function seed() {
     await Materia.bulkCreate(materias);
     await Grupo.bulkCreate(grupos);
     await Clase.bulkCreate(clases);
+
+    console.log("Seed ejecutado exitosamente.");
 }
+
 export const createAdmin = async () => {
     const admin = await Usuario.findOne({ where: [{rol: "admin"}] });
     if (!admin) {

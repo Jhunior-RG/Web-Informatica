@@ -5,7 +5,7 @@ const nextConfig = {
             "www.google.com",
             "logo.clearbit.com",
             "icons.duckduckgo.com",
-            "storage.googleapis.com", // Agrega este dominio
+            "storage.googleapis.com"
         ],
     },
     webpack: (config) => {

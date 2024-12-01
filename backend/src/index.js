@@ -13,8 +13,6 @@ import { createAdmin, seed } from "./config/data.js";
 import morgan from "morgan";
 import pensum from "./routes/pensum.js";
 import { proxy } from "./routes/proxy.js";
-import fs from "fs";
-import spdy from "spdy";
 
 const app = express();
 const port = process.env.PORT;
@@ -56,19 +54,6 @@ app.get("/api", (req, res) => {
     res.send("Hola desde la api del Backend con HTTP 2");
 });
 
-/*
-const options = {
-  key: fs.readFileSync("./certs/private-key.pem"),
-  cert: fs.readFileSync("./certs/certificate.pem"),
-}
-*/
-const options = {
-    key: fs.readFileSync("./certs/web-informatica.com-key.pem"),
-    cert: fs.readFileSync("./certs/web-informatica.com.pem"),
-};
-
-const server = spdy.createServer(options, app);
-
-server.listen(port, () => {
-    console.log(`Servidor HTTPS/2 en https://localhost:${port}`);
+app.listen(port, () => {
+    console.log(`Servidor corriendo en http://localhost:${port}`);
 });
